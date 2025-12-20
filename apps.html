@@ -37,13 +37,13 @@ header button:hover {
     background-color: #000;
 }
 
-/* wrapper */
+/* section wrapper */
 .section-wrapper {
     position: relative;
     overflow: hidden;
 }
 
-/* purple section */
+/* purple background layer */
 .section {
     background-color: #5a00e7;
     padding: 60px 40px;
@@ -52,16 +52,22 @@ header button:hover {
     z-index: 1;
 }
 
-/* particle overlay */
+/* particle layer (above purple, below content) */
 .particle-overlay {
     position: absolute;
     inset: 0;
-    background-image: url("https://media.giphy.com/media/2dnGHOAQt1tIziib5X/giphy.gif");
+    background-image: url("PLACE_PARTICLE_GIF_URL_HERE");
     background-repeat: repeat;
     background-size: 300px 300px;
     opacity: 0.35;
     pointer-events: none;
     z-index: 2;
+}
+
+/* content layer */
+.section-content {
+    position: relative;
+    z-index: 3;
 }
 
 .app-card {
@@ -72,8 +78,6 @@ header button:hover {
     margin: 15px;
     border-radius: 10px;
     cursor: pointer;
-    position: relative;
-    z-index: 3;
 }
 
 .app-card img {
@@ -118,31 +122,35 @@ function openFullscreen(url) {
 </header>
 
 <div class="section-wrapper">
+
     <div class="particle-overlay"></div>
 
     <div class="section">
-        <h2>Full-Screen Apps</h2>
+        <div class="section-content">
+            <h2>Full-Screen Apps</h2>
 
-        <div class="app-card" onclick="openFullscreen('https://scramjet.mercurywork.shop/')">
-            <img src="https://scramjet.mercurywork.shop/favicon.webp">
-            <h3>Scramjet proxy</h3>
-        </div>
+            <div class="app-card" onclick="openFullscreen('https://scramjet.mercurywork.shop/')">
+                <img src="https://scramjet.mercurywork.shop/favicon.webp">
+                <h3>Scramjet proxy</h3>
+            </div>
 
-        <div class="app-card" onclick="openFullscreen('https://edu-links12.vapor.my.cdn.cloudflare.net/')">
-            <img src="https://cdn.discordapp.com/icons/1339758993962307666/355f44f4d8c014283bbbc0a5ec475000.webp">
-            <h3>Prism proxy</h3>
-        </div>
+            <div class="app-card" onclick="openFullscreen('https://edu-links12.vapor.my.cdn.cloudflare.net/')">
+                <img src="https://cdn.discordapp.com/icons/1339758993962307666/355f44f4d8c014283bbbc0a5ec475000.webp">
+                <h3>Prism proxy</h3>
+            </div>
 
-        <div class="app-card" onclick="openFullscreen('https://z.axsetubal.pt/')">
-            <img src="https://z.axsetubal.pt/logo.webp">
-            <h3>Z-kit proxy</h3>
-        </div>
+            <div class="app-card" onclick="openFullscreen('https://z.axsetubal.pt/')">
+                <img src="https://z.axsetubal.pt/logo.webp">
+                <h3>Z-kit proxy</h3>
+            </div>
 
-        <div class="app-card" onclick="openFullscreen('https://duckduckgo.com')">
-            <img src="https://duckduckgo.com/assets/logo_header.v108.svg">
-            <h3>DuckDuckGo</h3>
+            <div class="app-card" onclick="openFullscreen('https://duckduckgo.com')">
+                <img src="https://duckduckgo.com/assets/logo_header.v108.svg">
+                <h3>DuckDuckGo</h3>
+            </div>
         </div>
     </div>
+
 </div>
 
 <footer>
