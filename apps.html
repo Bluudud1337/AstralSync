@@ -15,35 +15,22 @@ body {
     color: white;
 }
 
-/* ================= LOADING POPUP ================= */
-#loading-screen {
+/* ================= POPUP MESSAGE ================= */
+#popup-message {
     position: fixed;
-    inset: 0;
-    background-color: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-}
-
-.loading-box {
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: #000;
     border: 2px solid #5a00e7;
-    padding: 30px 40px;
+    padding: 20px 30px;
     border-radius: 10px;
-    text-align: center;
-    min-width: 280px;
-}
-
-.loading-title {
-    font-size: 22px;
-    margin-bottom: 15px;
+    font-size: 18px;
     color: #5a00e7;
-}
-
-#loading-text {
-    font-size: 16px;
-    opacity: 0.85;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 9999;
 }
 
 /* ================= HEADER ================= */
@@ -162,28 +149,24 @@ iframe.fullscreen {
 </style>
 
 <script>
-/* ================= RANDOM LOADING MESSAGE ================= */
-const loadingMessages = [
-    "Loading stuff...",
-    "Screw GoGuardian who ever made it NEEDS to be shot dead....",
-    "I HATE THOSE STUPID CLANKERS!!",
-    "Preparing opening... 🚀",
-    "Aija is the rich brother and their crackhead disowned sister is AIJA4GIRLS lol",
-    "3 2 1...",
-    "#noticing👀"
-    "Sybau liam...."
+/* ================= RANDOM POPUP MESSAGE ================= */
+const popupMessages = [
+    "Welcome to AIja",
+    "Check out the apps below!",
+    "Enjoy your experience 🚀",
+    "Here's something new for you!",
+    "Ready to explore?",
 ];
 
 window.addEventListener("DOMContentLoaded", () => {
-    const randomMessage =
-        loadingMessages[Math.floor(Math.random() * loadingMessages.length)];
-    document.getElementById("loading-text").textContent = randomMessage;
-});
+    const popup = document.getElementById("popup-message");
+    const randomMessage = popupMessages[Math.floor(Math.random() * popupMessages.length)];
+    popup.textContent = randomMessage;
+    popup.style.opacity = 1;
 
-window.addEventListener("load", () => {
     setTimeout(() => {
-        document.getElementById("loading-screen").style.display = "none";
-    }, 1200);
+        popup.style.opacity = 0;
+    }, 3000); // 3 seconds
 });
 
 /* ================= APP FUNCTIONS ================= */
@@ -210,13 +193,8 @@ function filterCards() {
 
 <body>
 
-<!-- LOADING SCREEN -->
-<div id="loading-screen">
-    <div class="loading-box">
-        <div class="loading-title">AIja</div>
-        <div id="loading-text">Loading...</div>
-    </div>
-</div>
+<!-- POPUP MESSAGE -->
+<div id="popup-message"></div>
 
 <header>
     <button onclick="location.href='index.html'">Games</button>
@@ -262,14 +240,3 @@ function filterCards() {
             <div class="app-card" onclick="openFullscreen('https://glintapp.org/')">
                 <img src="https://glintapp.org/images/logo.png">
                 <h3>Glint</h3>
-            </div>
-        </div>
-    </div>
-</div>
-
-<footer>
-    <p>&copy; AIja Unblockedd</p>
-</footer>
-
-</body>
-</html>
