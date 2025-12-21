@@ -28,7 +28,7 @@ body {
     text-align: center;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 1s ease; /* smooth fade */
+    transition: opacity 0.3s ease;
     z-index: 9999;
     -webkit-text-stroke: 2px #8000ff; /* purple outline */
     color: #000; /* inner part black */
@@ -186,14 +186,11 @@ window.addEventListener("DOMContentLoaded", () => {
 
     popup.textContent = randomMessage;
     popup.style.fontFamily = randomFont;
+    popup.style.opacity = 0.50;
 
-    // Make popup fully visible
-    popup.style.opacity = 1;
-
-    // After 3 seconds, fade out
     setTimeout(() => {
-        popup.style.opacity = 0;
-    }, 3000);
+        popup.style.opacity = 0.50;
+    }, 3000); // disappear after 3 seconds
 });
 
 /* ================= APP FUNCTIONS ================= */
@@ -261,32 +258,26 @@ function filterCards() {
                 <img src="https://styles.redditmedia.com/t5_9vvnjt/styles/communityIcon_ypv1871zsvyb1.png">
                 <h3>Interstellar</h3>
             </div>
-
             <div class="app-card" onclick="openFullscreen('https://glintapp.org/')">
                 <img src="https://glintapp.org/images/logo.png">
                 <h3>Glint</h3>
-            </div>
-
+              </div>
             <div class="app-card" onclick="openFullscreen('https://third-army.surge.sh/')">
                 <img src="https://third-army.surge.sh/icon.png">
                 <h3>HyperTabs</h3>
             </div>
-
             <div class="app-card" onclick="openFullscreen('https://browser.rammerhead.org/')">
                 <img src="https://gitlab.com/uploads/-/system/project/avatar/45980936/images.png">
                 <h3>RammerHead</h3>
-            </div>
-
+        </div>
             <div class="app-card" onclick="openFullscreen('https://gointospace.app')">
                 <img src="https://gointospace.app/assets/favicon.ico">
                 <h3>NewSpace</h3>
-            </div>
-
+        </div>
             <div class="app-card" onclick="openFullscreen('https://waves.lat/')">
                 <img src="https://waves.lat/assets/images/icons/favicon.ico">
                 <h3>Waves</h3>
-            </div>
-
+         </div>
             <div class="app-card" onclick="openFullscreen('https://play.frogiee.one/')">
                 <img src="https://play.frogiee.one/stuff/jolly.png">
                 <h3>Froggie's Arcade</h3>
@@ -300,3 +291,4 @@ function filterCards() {
 </footer>
 </body>
 </html>
+
