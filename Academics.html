@@ -22,14 +22,8 @@ body {
     border-radius: 10px;
     overflow: hidden;
 }
-
 /* Tabs */
-.tabs-bar {
-    display: flex;
-    background-color: #000;
-    padding: 5px;
-    overflow-x: auto;
-}
+.tabs-bar {display: flex; background-color: #000; padding: 5px; overflow-x: auto;}
 .tab {
     padding: 8px 15px;
     background-color: #222;
@@ -40,12 +34,8 @@ body {
     display: flex;
     align-items: center;
     gap: 5px;
-    user-select: none;
 }
-.tab.active {
-    background-color: #8000ff;
-    font-weight: bold;
-}
+.tab.active {background-color: #8000ff; font-weight: bold;}
 .tab button.close-tab {
     background: none;
     border: none;
@@ -53,8 +43,7 @@ body {
     cursor: pointer;
     font-weight: bold;
 }
-
-/* Browser controls */
+/* Controls */
 .browser-bar {
     display: flex;
     padding: 10px;
@@ -93,54 +82,4 @@ iframe { flex: 1; width: 100%; border: none; }
         <button id="backBtn">⬅️</button>
         <button id="forwardBtn">➡️</button>
         <button id="reloadBtn">🔄</button>
-        <input type="text" id="urlInput" placeholder="Enter URL..." onkeydown="if(event.key==='Enter'){loadURL();}">
-        <button id="goBtn">Go</button>
-        <button id="newTabBtn">➕ New Tab</button>
-    </div>
-    <iframe id="browserFrame" src=""></iframe>
-</div>
-
-<script>
-// ===================== Tab & History Management =====================
-let tabs = [];
-let currentTabIndex = 0;
-
-// Replace this with your own Replit proxy URL if you host one
-const proxyBase = "https://embeddable-proxy-example.repl.co/?url=";
-
-// Start with DuckDuckGo
-addTab("https://duckduckgo.com");
-
-// Add a new tab
-function addTab(initialURL = "https://duckduckgo.com") {
-    const newTab = {
-        url: initialURL,
-        history: [initialURL],
-        currentIndex: 0
-    };
-    tabs.push(newTab);
-    currentTabIndex = tabs.length - 1;
-    renderTabs();
-    loadCurrentTab();
-}
-
-// Close a tab
-function closeTab(index) {
-    if (tabs.length === 1) return; // keep at least one tab
-    tabs.splice(index, 1);
-    if (currentTabIndex >= tabs.length) currentTabIndex = tabs.length - 1;
-    renderTabs();
-    loadCurrentTab();
-}
-
-// Switch to a tab
-function switchTab(index) {
-    currentTabIndex = index;
-    renderTabs();
-    loadCurrentTab();
-}
-
-// Render tabs
-function renderTabs() {
-    const tabsBar = document.getElementById("tabsBar");
-    tabsBar.inne
+        <input type="text" i
