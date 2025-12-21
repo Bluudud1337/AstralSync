@@ -46,14 +46,13 @@ header button:hover {
     overflow: hidden;
 }
 
-/* PARTICLE LAYER */
+/* PARTICLE BACKGROUND */
 .particles {
     position: absolute;
     inset: 0;
-    background-image: url("https://media.giphy.com/media/pPQFClpVc7k6k/giphy.gif"");
-    background-size: cover;
-    background-position: center;
-    opacity: 0.35;
+    background-image: url("https://media.giphy.com/media/pPQFClpVc7k6k/giphy.gif");
+    background-size: 300px 300px;
+    opacity: 0.4;
     z-index: 1;
     pointer-events: none;
 }
@@ -64,7 +63,7 @@ header button:hover {
     z-index: 2;
 }
 
-/* SEARCH */
+/* SEARCH BAR */
 .search-bar {
     width: 600px;
     padding: 10px;
@@ -160,7 +159,8 @@ function filterGames() {
     <div class="particles"></div>
 
     <div class="content">
-        <h2>Games</h2>
+        <h2>Aija Unblockedd S+</h2>
+        <h3>We are so back baby</h3>
 
         <input
             id="searchInput"
@@ -171,7 +171,7 @@ function filterGames() {
 
         <div id="no-results">nothing found dude......</div>
 
-        <!-- FULL GAME LIST -->
+        <!-- ALL ORIGINAL GAMES -->
         <div class="game-card" onclick="openFullscreen('https://krunker.io/')">
             <img src="https://krunker-io.io/krunker-io-icon.jpg">
             <h3>Krunker.io</h3>
@@ -197,10 +197,41 @@ function filterGames() {
             <h3>Diep.io</h3>
         </div>
 
+        <div class="game-card" onclick="openFullscreen('https://htmlxm.github.io/h3/tag/')">
+            <img src="https://cdn-1.webcatalog.io/catalog/poki-tag/poki-tag-icon-filled-256.png">
+            <h3>Tag</h3>
+        </div>
+
+        <div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/sonic-2-heroes.html')">
+            <img src="https://i.ytimg.com/vi/6l0yZTA_W84/maxresdefault.jpg">
+            <h3>Sonic 2 Heroes</h3>
+        </div>
+
+        <div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/sonic-winter-adventures.html')">
+            <img src="https://tse4.mm.bing.net/th/id/OIP.JD8ZvkHEC5ZCMSU_NpjQjAHaHa">
+            <h3>Sonic Winter Adventures</h3>
+        </div>
+
+        <div class="game-card" onclick="openFullscreen('https://waves.lat/!!/https://cdn.jsdelivr.net/gh/gn-math/html@main/467-updatee.html')">
+            <img src="https://i.ytimg.com/vi/L5vrz-fq9D0/maxresdefault.jpg">
+            <h3>Baldi's Basics Plus</h3>
+        </div>
+
+        <div class="game-card" onclick="openFullscreen('https://space-waves.io/space-waves.embed')">
+            <img src="https://spacewavesgame.org/cache/data/image/game/space-waves-favicon-m208x208.png">
+            <h3>Space Waves</h3>
+        </div>
+
+        <div class="game-card" onclick="openFullscreen('https://azgames.io/game/escape-road/')">
+            <img src="https://traffic-rider.io/data/image/escaperoad.jpg">
+            <h3>Escape Road</h3>
+        </div>
+
         <div class="game-card" onclick="openFullscreen('https://sciencemathedu.github.io/slope/')">
             <img src="https://play.frogiee.one/stuff/games/slope.jpg">
             <h3>Slope</h3>
         </div>
+
     </div>
 </div>
 
