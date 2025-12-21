@@ -23,7 +23,6 @@ body {
     align-items: center;
     justify-content: center;
     background-color: #000; /* black background */
-    color: #00ffff; /* ocean blue text */
     font-size: 3em; /* large text */
     font-weight: bold;
     text-align: center;
@@ -31,11 +30,13 @@ body {
     pointer-events: none;
     transition: opacity 0.3s ease;
     z-index: 9999;
+    -webkit-text-stroke: 2px #8000ff; /* purple outline */
+    color: #000; /* inner part black */
     text-shadow:
-        0 0 5px #00ffff,
-        0 0 10px #00ffff,
-        0 0 20px #00ffff,
-        0 0 40px #00ffff; /* glowing effect */
+        0 0 5px #8000ff,
+        0 0 10px #8000ff,
+        0 0 20px #8000ff,
+        0 0 40px #8000ff; /* purple glow */
 }
 
 /* ================= HEADER ================= */
@@ -169,10 +170,16 @@ const popupMessages = [
     "R3bloxian and N were here...",
 ];
 
+// Array of random fonts
+const fonts = ["Arial", "Verdana", "Georgia", "Courier New", "Comic Sans MS", "Impact", "Tahoma"];
+
 window.addEventListener("DOMContentLoaded", () => {
     const popup = document.getElementById("popup-message");
     const randomMessage = popupMessages[Math.floor(Math.random() * popupMessages.length)];
+    const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
+
     popup.textContent = randomMessage;
+    popup.style.fontFamily = randomFont;
     popup.style.opacity = 1;
 
     setTimeout(() => {
