@@ -10,12 +10,11 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
-    background-color: #000000;
+    background-color: #000;
     color: white;
 }
 
-/* ================= FULLSCREEN POPUP MESSAGE ================= */
+/* POPUP */
 #popup-message {
     position: fixed;
     inset: 0;
@@ -25,24 +24,17 @@ body {
     background-color: #000;
     font-size: 3em;
     font-weight: bold;
-    text-align: center;
     opacity: 0;
     pointer-events: none;
     transition: opacity 1s ease;
     z-index: 9999;
     -webkit-text-stroke: 2px #443dff;
     color: #000;
-    text-shadow:
-        0 0 5px #8000ff,
-        0 0 10px #8000ff,
-        0 0 20px #8000ff,
-        0 0 40px #8000ff;
+    text-shadow: 0 0 10px #8000ff, 0 0 30px #8000ff;
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 header {
-    background-color: #000000;
-    color: white;
     padding: 20px 30px;
     display: flex;
     justify-content: flex-end;
@@ -59,72 +51,70 @@ header button {
     margin-left: 20px;
 }
 
-header button:hover {
-    background-color: #38008f;
-}
-
-/* ================= SECTION ================= */
+/* SECTION */
 .section {
     padding: 40px;
     text-align: center;
     background-color: #38008f;
 }
 
-/* SEARCH BAR */
+/* SEARCH */
 .search-bar {
-    display: block;
     width: 600px;
-    padding: 10px 15px;
+    padding: 10px;
     margin: 20px auto 10px;
+    display: block;
     border-radius: 10px;
     border: 2px solid #8000ff;
-    background-color: #000;
+    background: #000;
     color: white;
-    font-size: 16px;
-    outline: none;
     text-align: center;
 }
 
-.search-bar::placeholder {
-    color: white;
-    opacity: 0.7;
+/* SOFT ICON */
+.icon-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 35px;
 }
 
-#no-results {
-    display: none;
-    margin: 15px 0 30px;
-    font-size: 20px;
-    color: white;
-    opacity: 0.9;
+.soft-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px rgba(128,0,255,0.7);
+    transition: transform .2s, box-shadow .2s;
 }
 
+.soft-icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(128,0,255,1);
+}
+
+.soft-icon img {
+    width: 60%;
+    height: 60%;
+}
+
+/* GAMES */
 .game-card {
     display: inline-block;
     width: 200px;
     height: 250px;
-    background-color: #000000;
+    background: #000;
     margin: 15px;
     border-radius: 10px;
     cursor: pointer;
-    color: white;
-    text-align: center;
 }
 
 .game-card img {
     width: 100%;
     height: 160px;
     border-radius: 10px 10px 0 0;
-}
-
-.game-card h3 {
-    margin-top: 10px;
-}
-
-footer {
-    background-color: #000000;
-    color: white;
-    text-align: center;
-    padding: 20px 0;
 }
 
 iframe.fullscreen {
@@ -138,61 +128,41 @@ iframe.fullscreen {
 </style>
 
 <script>
-/* ================= POPUP LOGIC (EXACT MATCH) ================= */
 const popupMessages = [
     "Welcome to Aija unblocked.",
     "join our discord!",
     "follow @rurrrylol for updates.",
-    "follow @fartadagoat82 on tiktok",
-    "follow @fartagdlive on tiktok",
-    "follow @fartagdlive on tiktok",
-    "https://discord.gg/9CucEhZfYj",
-    "WE are cracking bobette from DW",
+    "https://discord.gg/9CucEhZfYj"
 ];
-
-const fonts = ["Arial", "Verdana", "Georgia", "Courier New", "Comic Sans MS", "Impact", "Tahoma"];
 
 window.addEventListener("DOMContentLoaded", () => {
     const popup = document.getElementById("popup-message");
     popup.textContent = popupMessages[Math.floor(Math.random() * popupMessages.length)];
-    popup.style.fontFamily = fonts[Math.floor(Math.random() * fonts.length)];
-
     popup.style.opacity = 1;
-
-    setTimeout(() => {
-        popup.style.opacity = 0;
-    }, 3000);
+    setTimeout(() => popup.style.opacity = 0, 3000);
 });
 
-/* ================= GAME FUNCTIONS ================= */
 function openFullscreen(url) {
-    const iframe = document.createElement('iframe');
+    const iframe = document.createElement("iframe");
     iframe.src = url;
-    iframe.className = 'fullscreen';
-    iframe.setAttribute('allowfullscreen', '');
+    iframe.className = "fullscreen";
     document.body.appendChild(iframe);
-    iframe.onclick = () => iframe.remove();
 }
 
 function filterGames() {
     const input = document.getElementById("searchInput").value.toLowerCase();
     const cards = document.getElementsByClassName("game-card");
-    const noResults = document.getElementById("no-results");
-
-    let found = false;
     for (let card of cards) {
-        const text = card.innerText.toLowerCase();
-        card.style.display = text.includes(input) ? "inline-block" : "none";
-        if (text.includes(input)) found = true;
+        card.style.display = card.innerText.toLowerCase().includes(input)
+            ? "inline-block"
+            : "none";
     }
-    noResults.style.display = found ? "none" : "block";
 }
 </script>
 </head>
 
 <body>
 
-<!-- POPUP -->
 <div id="popup-message"></div>
 
 <header>
@@ -202,103 +172,48 @@ function filterGames() {
 
 <div class="section">
     <h2>Aija Unblockedd S+</h2>
-    <h3>We are so back baby</h3>
 
-    <input type="text" id="searchInput" class="search-bar"
-        placeholder="Search games.." onkeyup="filterGames()">
+    <input id="searchInput" class="search-bar" placeholder="Search games.." onkeyup="filterGames()">
 
-    <div id="no-results">nothing found dude......</div>
+    <!-- ICON -->
+    <div class="icon-wrapper">
+        <a href="https://discord.gg/9CucEhZfYj" target="_blank">
+            <div class="soft-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png">
+            </div>
+        </a>
+    </div>
 
+    <!-- GAMES -->
     <div class="game-card" onclick="openFullscreen('https://krunker.io/')">
-    <img src="https://krunker-io.io/krunker-io-icon.jpg">
-    <h3>Krunker.io</h3>
-</div>
+        <img src="https://krunker-io.io/krunker-io-icon.jpg"><h3>Krunker.io</h3>
+    </div>
 
-<div class="game-card" onclick="openFullscreen('https://agar.io/')">
-    <img src="https://paperiogame.io/data/image/game/agario.png">
-    <h3>Agar.io</h3>
-</div>
+    <div class="game-card" onclick="openFullscreen('https://agar.io/')">
+        <img src="https://paperiogame.io/data/image/game/agario.png"><h3>Agar.io</h3>
+    </div>
 
-<div class="game-card" onclick="openFullscreen('https://slither.io/')">
-    <img src="https://media.pocketgamer.com/artwork/na-kcwl/image_jpeg_820.jpg">
-    <h3>Slither.io</h3>
-</div>
+    <div class="game-card" onclick="openFullscreen('https://slither.io/')">
+        <img src="https://media.pocketgamer.com/artwork/na-kcwl/image_jpeg_820.jpg"><h3>Slither.io</h3>
+    </div>
 
-<div class="game-card" onclick="openFullscreen('https://shellshock.io/')">
-    <img src="https://slopegame.io/upload/imgs/shell-shockers-logo.jpg">
-    <h3>Shell Shockers</h3>
-</div>
+    <div class="game-card" onclick="openFullscreen('https://shellshock.io/')">
+        <img src="https://slopegame.io/upload/imgs/shell-shockers-logo.jpg"><h3>Shell Shockers</h3>
+    </div>
 
-<div class="game-card" onclick="openFullscreen('https://diep.io/')">
-    <img src="https://tse2.mm.bing.net/th/id/OIP.SoA7WalxosSMghPoFU8xUQAAAA">
-    <h3>Diep.io</h3>
-</div>
+    <div class="game-card" onclick="openFullscreen('https://diep.io/')">
+        <img src="https://tse2.mm.bing.net/th/id/OIP.SoA7WalxosSMghPoFU8xUQAAAA"><h3>Diep.io</h3>
+    </div>
 
-<div class="game-card" onclick="openFullscreen('https://htmlxm.github.io/h3/tag/')">
-    <img src="https://cdn-1.webcatalog.io/catalog/poki-tag/poki-tag-icon-filled-256.png">
-    <h3>Tag</h3>
-</div>
+    <div class="game-card" onclick="openFullscreen('https://sciencemathedu.github.io/slope/')">
+        <img src="https://play.frogiee.one/stuff/games/slope.jpg"><h3>Slope</h3>
+    </div>
 
-<div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/sonic-2-heroes.html')">
-    <img src="https://i.ytimg.com/vi/6l0yZTA_W84/maxresdefault.jpg">
-    <h3>Sonic 2 heroes</h3>
+    <div class="game-card" onclick="openFullscreen('https://c930n.github.io/seraph/games/subwaysurfers/index.html')">
+        <img src="https://play-lh.googleusercontent.com/q3fXz4jcMPIjLh2bICiRFRHHZTL3iSrA6jqynI6JNcCGnN7uA7l1-QepJjd63bm3k0Y">
+        <h3>Subway Surfers</h3>
+    </div>
 </div>
-
-<div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/sonic-winter-adventures.html')">
-    <img src="https://tse4.mm.bing.net/th/id/OIP.JD8ZvkHEC5ZCMSU_NpjQjAHaHa">
-    <h3>Sonic winter adventures</h3>
-</div>
-
-<div class="game-card" onclick="openFullscreen('https://waves.lat/!!/https://cdn.jsdelivr.net/gh/gn-math/html@main/467-updatee.html')">
-    <img src="https://i.ytimg.com/vi/L5vrz-fq9D0/maxresdefault.jpg">
-    <h3>Baldi's basic's plus</h3>
-</div>
-
-<div class="game-card" onclick="openFullscreen('https://space-waves.io/space-waves.embed')">
-    <img src="https://spacewavesgame.org/cache/data/image/game/space-waves-favicon-m208x208.png">
-    <h3>Space Waves</h3>
-</div>
-
-<div class="game-card" onclick="openFullscreen('https://azgames.io/game/escape-road/')">
-    <img src="https://traffic-rider.io/data/image/escaperoad.jpg">
-    <h3>Escape Road</h3>
-</div>
-
-<div class="game-card" onclick="openFullscreen('https://sciencemathedu.github.io/slope/')">
-    <img src="https://play.frogiee.one/stuff/games/slope.jpg">
-    <h3>Slope</h3>
-</div>
-
-<div class="game-card" onclick="openFullscreen('https://unblockedgamesfree.github.io/g-switch-3/')">
-    <img src="https://img.poki.com/cdn-cgi/image/quality=78,width=600,height=600,fit=cover,g=0.5x0.5,f=auto/7f53593c-4090-4cc5-a934-6a5e599d8eaa.png">
-    <h3>G-Switch</h3>
-</div>
-
-<div class="game-card" onclick="openFullscreen('https://thepercentcalculator.com/playgame/speedstars/')">
-    <img src="https://oss.speedstars.im/game-img/speed-stars-1.webp">
-    <h3>SpeedStars</h3>
-</div>
-
-<div class="game-card" onclick="openFullscreen('https://1v1lol-unblocked-free.github.io/')">
-    <img src="https://1v1lolunblocked.org/files/images/1v1lol-350x350.jpg">
-    <h3>1v1.lol</h3>
-</div>
-
-<div class="game-card" onclick="openFullscreen('https://gamea.azgame.io/hyper-tunnel/')">
-    <img src="https://ozgames.io/cache/data/image/game/Hyper-Tunnel-m160x96.JPG">
-    <h3>Hyper Tunnel</h3>
-</div>
-
-<div class="game-card" onclick="openFullscreen('https://c930n.github.io/seraph/games/subwaysurfers/index.html')">
-    <img src="https://play-lh.googleusercontent.com/q3fXz4jcMPIjLh2bICiRFRHHZTL3iSrA6jqynI6JNcCGnN7uA7l1-QepJjd63bm3k0Y">
-    <h3>Subway Surfers</h3>
-</div>
-
-</div>
-
-<footer>
-    <p>&copy; Aija Unblockedd S+</p>
-</footer>
 
 </body>
 </html>
