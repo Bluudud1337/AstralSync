@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard | Khan Academy</title>
 <link rel="icon" href="https://img.icons8.com/color/452/khan-academy.png" type="image/x-icon">
+
 <style>
-/* Basic page setup */
+/* BASIC PAGE */
 body {
     margin: 0;
     padding: 0;
@@ -16,18 +17,43 @@ body {
     overflow-x: hidden;
 }
 
-/* Particle background overlay */
+/* PARTICLE BACKGROUND */
 .particle-background {
     position: fixed;
     inset: 0;
-    background-image: url('https://i.gifer.com/SFFd.gif'); /* <-- Insert your particle URL here */
+    background-image: url('https://i.gifer.com/SFFd.gif'); /* change URL here */
     background-repeat: repeat;
     background-size: cover;
-    opacity: 0.3; /* adjust transparency */
+    opacity: 0.3;
     z-index: 0;
 }
 
-/* Container for links */
+/* ================= HEADER (EXACT FROM INDEX.HTML) ================= */
+header {
+    padding: 20px 30px;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    z-index: 2;
+}
+
+header button {
+    background-color: #3d0078;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 20px;
+}
+
+header button:hover {
+    box-shadow: 0 0 15px rgba(128,0,255,0.8);
+}
+/* ================================================================ */
+
+/* LINKS CONTAINER */
 .links-container {
     position: relative;
     z-index: 1;
@@ -37,7 +63,7 @@ body {
     padding: 50px 20px;
 }
 
-/* Individual link boxes */
+/* LINK BOXES */
 .link-box {
     width: 80%;
     max-width: 600px;
@@ -54,7 +80,6 @@ body {
     transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
 }
 
-/* Hover effect */
 .link-box:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(128,0,255,0.7);
@@ -63,6 +88,7 @@ body {
 }
 </style>
 </head>
+
 <body>
 
 <div class="particle-background"></div>
@@ -70,23 +96,29 @@ body {
 <header>
     <button onclick="location.href='index.html'">Lessons</button>
     <button onclick="location.href='apps.html'">Apps</button>
+    <button onclick="location.href='ProxyLinks.html'">Proxy Links</button>
 </header>
 
 <div class="links-container">
-     <a href="https://docs.google.com/forms/d/e/1FAIpQLSdasXgYtdEtaRsQuTvlerVaMsPoP7TUlqBe0PsygzI4jHpZUw/viewform?usp=publish-editor" target="_blank" class="link-box">Submit a link</a>
-    <div>
-    <h1>Frogies Arcade</h1>
-    <a href="https://smdpschool.org/" target="_blank" class="link-box">FA</a>
-    <a href="https://oldmillschool.org/" target="_blank" class="link-box">FA</a>
-    <a href="https://dash.learnenglishinmerton.org/" target="_blank" class="link-box">FA</a>
-    <a href="https://frogiesarcade.net/" target="_blank" class="link-box">FA</a>
-    <a href="https://spells.myaddr.tools/" target="_blank" class="link-box">FA</a>
-    <h1>NewSpace</h1>
-     <a href="https://gointospace.app" target="_blank" class="link-box">NS</a>
-     <a href="https://register.srvdns.de/" target="_blank" class="link-box">NS</a>
-     <a href="https://dash.ddnssec.de/" target="_blank" class="link-box">NS</a>
-     <a href="https://account.dyndnssec.de/" target="_blank" class="link-box">NS</a>
-        <h1>More coming soon!<h1>
+
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSdasXgYtdEtaRsQuTvlerVaMsPoP7TUlqBe0PsygzI4jHpZUw/viewform?usp=publish-editor"
+   target="_blank" class="link-box">Submit a link</a>
+
+<h1>Frogies Arcade</h1>
+<a href="https://smdpschool.org/" target="_blank" class="link-box">FA</a>
+<a href="https://oldmillschool.org/" target="_blank" class="link-box">FA</a>
+<a href="https://dash.learnenglishinmerton.org/" target="_blank" class="link-box">FA</a>
+<a href="https://frogiesarcade.net/" target="_blank" class="link-box">FA</a>
+<a href="https://spells.myaddr.tools/" target="_blank" class="link-box">FA</a>
+
+<h1>NewSpace</h1>
+<a href="https://gointospace.app" target="_blank" class="link-box">NS</a>
+<a href="https://register.srvdns.de/" target="_blank" class="link-box">NS</a>
+<a href="https://dash.ddnssec.de/" target="_blank" class="link-box">NS</a>
+<a href="https://account.dyndnssec.de/" target="_blank" class="link-box">NS</a>
+
+<h1>More coming soon!</h1>
+
 </div>
 
 </body>
