@@ -15,7 +15,7 @@ body {
     color: white;
 }
 
-/* ================= FULLSCREEN POPUP MESSAGE ================= */
+/* FULLSCREEN POPUP MESSAGE */
 #popup-message {
     position: fixed;
     inset: 0;
@@ -32,14 +32,10 @@ body {
     z-index: 9999;
     -webkit-text-stroke: 2px #8000ff; 
     color: #000;
-    text-shadow:
-        0 0 5px #8000ff,
-        0 0 10px #8000ff,
-        0 0 20px #8000ff,
-        0 0 40px #8000ff;
+    text-shadow: 0 0 5px #8000ff,0 0 10px #8000ff,0 0 20px #8000ff,0 0 40px #8000ff;
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 header {
     background-color: #000;
     padding: 20px 30px;
@@ -62,7 +58,7 @@ header button:hover {
     background-color: #000;
 }
 
-/* ================= SECTION ================= */
+/* SECTION */
 .section-wrapper {
     position: relative;
     overflow: hidden;
@@ -146,7 +142,7 @@ iframe.fullscreen {
     z-index: 1000;
 }
 
-/* CLOSE BUTTON */
+/* CLOSE BUTTON ON TOP OF IFRAME */
 #close-btn {
     position: fixed;
     top: 20px;
@@ -160,7 +156,7 @@ iframe.fullscreen {
     font-size: 24px;
     font-weight: bold;
     cursor: pointer;
-    z-index: 1001;
+    z-index: 1001; /* above iframe */
     display: none;
     text-shadow: 0 0 5px white;
 }
@@ -177,7 +173,6 @@ footer {
 </style>
 
 <script>
-/* ================= RANDOM FULLSCREEN POPUP MESSAGE ================= */
 const popupMessages = [
     "HA,HA, ONE!",
     "Check out the apps below!",
@@ -186,7 +181,7 @@ const popupMessages = [
     "Ready or not, here i COME!",
     "You'll never be a GOD!",
     "Something's missing...",
-    "Im outta here!",
+    "Im outta here...",
     "Triple T x Da Kirk r34😳",
     "*Ohio impressed*",
     "R3bloxian and ALT were here...",
@@ -218,7 +213,6 @@ window.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => popup.style.opacity = 0, 3000);
 });
 
-/* ================= APP FUNCTIONS ================= */
 function openFullscreen(url) {
     const iframe = document.createElement('iframe');
     iframe.src = url;
@@ -248,7 +242,6 @@ function filterCards() {
 
 <body>
 
-<!-- POPUP MESSAGE -->
 <div id="popup-message"></div>
 
 <header>
@@ -273,7 +266,7 @@ function filterCards() {
             <!-- CLOSE BUTTON -->
             <button id="close-btn">X</button>
 
-            <!-- APP CARDS -->
+            <!-- ALL APP CARDS -->
             <div class="app-card" onclick="openFullscreen('https://scramjet.mercurywork.shop/')">
                 <img src="https://scramjet.mercurywork.shop/favicon.webp">
                 <h3>Scramjet</h3>
@@ -366,6 +359,7 @@ function filterCards() {
                 <img src="https://tse2.mm.bing.net/th/id/OIP.nVh5I7w7x1Sidj5oAx8UUgHaF6?rs=1&pid=ImgDetMain&o=7&rm=3">
                 <h3>WeaveSilk</h3>
             </div>
+
         </div>
     </div>
 </div>
