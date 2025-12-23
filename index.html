@@ -72,7 +72,7 @@ header button {
 #game-counter {
     font-size: 48px;
     font-weight: bold;
-    color: #1e90ff;
+    color: #000000;
     margin-bottom: 20px;
 }
 
@@ -115,7 +115,7 @@ header button {
 /* GAME GRID */
 .games-container {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 20px;
     justify-items: center;
 }
@@ -185,7 +185,7 @@ iframe.fullscreen {
     <h2>Aija Unblockedd S+</h2>
     <h3>"this website is truly, where the Aija Unblocks."</h3>
 
-    <div id="game-counter">0 Games</div>
+    <div id="game-counter">0 Games currently.</div>
 
     <input id="searchInput" class="search-bar" placeholder="Search games..." onkeyup="filterGames()">
 
@@ -342,10 +342,10 @@ window.onload = () => {
 /* PARTICLES CONFIG */
 particlesJS("particles-js", {
     particles: {
-        number: { value: 80 },
+        number: { value: 90 },
         color: { value: "#8000ff" },
         size: { value: 3 },
-        move: { speed: 1 }
+        move: { speed: 2 }
     }
 });
 </script>
