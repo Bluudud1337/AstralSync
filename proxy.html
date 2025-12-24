@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AijaBrowser</title>
+  <title>Home</title>
 </head>
 <body style="background:#000;color:white;text-align:center;font-family:Arial">
 
-  <h1>Open a Website</h1>
+  <header>
+    <button onclick="location.href='apps.html'">Apps</button>
+    <button onclick="location.href='ProxyLinks.html'">Proxy Links</button>
+       <button onclick="location.href='index.html'">games</button>
+</header>
+
+  <h1>About blank launcher</h1>
 
   <input id="url" placeholder="https://example.com" style="width:300px">
   <br><br>
 
   <button onclick="openSite()">Go</button>
+  <h1>this doesnt open all sites btw, only sites that can be embedded. if the site isnt embeddable, you will just be sent to the actual site.</h1>
+  <h1>to exit from the about blank launcher, just use the <- button.</h1>
 
   <script>
     function openSite() {
