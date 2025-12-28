@@ -6,6 +6,8 @@
 <title>Khan Academy</title>
 <link rel="icon" href="https://img.icons8.com/color/452/khan-academy.png">
 
+    
+<!-- PARTICLE LIBRARY -->
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
 <style>
@@ -23,28 +25,29 @@ body {
     overflow-x: hidden;
 }
 
-/* PARTICLES */
+/* PARTICLE BACKGROUND */
 #particles-js {
     position: fixed;
     inset: 0;
     z-index: -1;
 }
 
-/* POPUP MESSAGE */
+/* POPUP */
 #popup-message {
     position: fixed;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--background-color);
+    background-color: var(--background-color);
     font-size: 3em;
     font-weight: bold;
-    opacity: 0;
+    opacity: 1;
     pointer-events: none;
     transition: opacity 1s ease;
     z-index: 9999;
-    color: var(--text-color);
+    -webkit-text-stroke: 2px var(--accent-color);
+    color: var(--background-color);
     text-shadow: 0 0 20px var(--accent-color);
 }
 
@@ -52,25 +55,38 @@ body {
 header {
     padding: 20px 30px;
     display: flex;
-    gap: 15px;
     justify-content: flex-end;
+    gap: 20px;
 }
 
-/* BUTTONS */
-button {
-    background: var(--accent-color);
+header button {
+    background-color: var(--accent-color);
     border: none;
     padding: 10px 20px;
     color: var(--text-color);
-    font-size: 16px;
+    font-size: 18px;
     cursor: pointer;
-    border-radius: 6px;
+    border-radius: 5px;
 }
 
 /* SECTION */
 .section {
     padding: 40px;
     text-align: center;
+}
+
+/* SECTION TITLE */
+.section h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+/* GAME COUNTER */
+#game-counter {
+    font-size: 48px;
+    font-weight: bold;
+    color: var(--accent-color);
+    margin-bottom: 20px;
 }
 
 /* SEARCH */
@@ -82,10 +98,11 @@ button {
     border: 2px solid var(--accent-color);
     background: var(--background-color);
     color: var(--text-color);
+    text-align: center;
     margin-bottom: 30px;
 }
 
-/* DISCORD ICON */
+/* ICON */
 .icon-wrapper {
     display: flex;
     justify-content: center;
@@ -95,14 +112,20 @@ button {
 .soft-icon {
     width: 64px;
     height: 64px;
+    background: var(--background-color);
     border-radius: 14px;
     box-shadow: 0 0 20px var(--accent-color);
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: .2s;
 }
 
-/* GAMES */
+.soft-icon:hover {
+    transform: scale(1.1);
+}
+
+/* GAME GRID */
 .games-container {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -110,13 +133,21 @@ button {
     justify-items: center;
 }
 
+/* GAME CARD */
 .game-card {
-    width: 200px;
+    width: 100%;
+    max-width: 200px;
     height: 250px;
     background: var(--background-color);
     border-radius: 10px;
-    box-shadow: 0 0 10px var(--accent-color);
     cursor: pointer;
+    box-shadow: 0 0 10px var(--accent-color);
+    transition: transform .2s;
+    text-align: center;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
 }
 
 .game-card img {
@@ -135,81 +166,65 @@ iframe.fullscreen {
     z-index: 1000;
 }
 
-/* CLOSE GAME BUTTON */
+/* CLOSE BUTTON */
 #close-btn {
     position: fixed;
     top: 20px;
     right: 20px;
+    background: var(--accent-color);
+    border: none;
+    color: var(--text-color);
+    font-size: 22px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     display: none;
     z-index: 1001;
+    cursor: pointer;
 }
 
-/* PROFILE POPUP */
-#profileOverlay {
+/* THEME CHANGER */
+#theme-changer {
     position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-}
-
-#profilePanel {
+    top: 20px;
+    left: 20px;
     background: #111;
-    padding: 25px;
+    border: 2px solid var(--accent-color);
+    padding: 10px;
     border-radius: 10px;
-    width: 320px;
-    box-shadow: 0 0 20px var(--accent-color);
-}
-
-#profilePanel input,
-#profilePanel textarea {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 8px;
-    background: #000;
-    border: 1px solid var(--accent-color);
-    color: white;
-}
-
-.profile-actions {
+    z-index: 1002;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--text-color);
+}
+
+#theme-changer input {
+    width: 100px;
 }
 </style>
 </head>
 
 <body>
-
-<!-- PROFILE -->
-<div id="profileOverlay">
-    <div id="profilePanel">
-        <h2>Your Profile</h2>
-        <input id="profileName" placeholder="Username">
-        <input id="profileEmail" placeholder="Email">
-        <textarea id="profileGames" placeholder="Favorite games"></textarea>
-        <div class="profile-actions">
-            <button onclick="saveProfile()">Save</button>
-            <button onclick="closeProfile()">Close</button>
-        </div>
-    </div>
-</div>
-
 <div id="particles-js"></div>
 <div id="popup-message"></div>
 
 <header>
-    <button id="profileBtn">Profile</button>
     <button onclick="location.href='apps.html'">Apps</button>
     <button onclick="location.href='ProxyLinks.html'">Proxy Links</button>
-    <button onclick="location.href='proxy.html'">Blank Launcher</button>
-    <input type="color" id="colorPicker">
-    <button id="modeToggle">Toggle</button>
+    <button onclick="location.href='proxy.html'">blank launcher</button>
+    <!-- Theme changer GUI -->
+    <input type="color" id="colorPicker" title="Change Accent Color" style="margin-left:20px;">
+    <button id="modeToggle">Toggle Dark/Light</button>
 </header>
 
+    
 <div class="section">
     <h2>Popular Games</h2>
+    <h3>"welcome, to aija unblocked."</h3>
+    <a href="https://forms.gle/igLeuHnR8D1yezm17" target="_blank" class="link-box">Click here to Suggest a game</a>
+
+    <div id="game-counter">0 Games</div>
 
     <input id="searchInput" class="search-bar" placeholder="Search games..." onkeyup="filterGames()">
 
@@ -224,17 +239,10 @@ iframe.fullscreen {
     <button id="close-btn">X</button>
 
     <div class="games-container">
+        <!-- Example game cards -->
         <div class="game-card" onclick="openFullscreen('https://krunker.io/')">
             <img src="https://krunker-io.io/krunker-io-icon.jpg">
             <h3>Krunker.io</h3>
-        </div>
-        <div class="game-card" onclick="openFullscreen('https://agar.io/')">
-            <img src="https://paperiogame.io/data/image/game/agario.png">
-            <h3>Agar.io</h3>
-        </div>
-        <div class="game-card" onclick="openFullscreen('https://krunker.io/')">
-            <img src="https://krunker-io.io/krunker-io-icon.jpg">
-            <h3>Krunker</h3>
         </div>
         <div class="game-card" onclick="openFullscreen('https://agar.io/')">
             <img src="https://paperiogame.io/data/image/game/agario.png">
@@ -491,7 +499,7 @@ iframe.fullscreen {
         <div class="game-card" onclick="openFullscreen('https://infinitecraftnew.com/infinite-craft/')">
             <img src="https://tse1.mm.bing.net/th/id/OIP.KoctmhK3esztcugH73hmnQHaEK?rs=1&pid=ImgDetMain&o=7&rm=3">
             <h3>Infinite Craft</h3>
-
+            
     </div>
 </div>
 
@@ -503,9 +511,10 @@ iframe.fullscreen {
 /* POPUP */
 const popupMessages = [
     "Welcome to Aija unblocked.",
-    "Join our Discord!",
+    "join our discord!",
     "Loading...",
-    "Dev team nowhere to be seen..."
+    "why is the sites code ALWAYS breaking??",
+    "Dev team NOWHERE to be seen...",
     "Nerf TripWire dude please...",
     "and i know that you know, that you know, that you mine..",
     "SharkySab get a job..",
@@ -515,49 +524,161 @@ const popupMessages = [
     "AstraNova you actual bop bro",
     "Alot of genuine effort and love has been put into this project, thanks for playing.. ",
     "3,2,1..",
+];
 
+/* ONLOAD */
+window.onload = () => {
+    const savedColor = localStorage.getItem('accentColor');
+    const savedMode = localStorage.getItem('mode');
+
+    if(savedColor) setAccentColor(savedColor);
+    if(savedMode) setMode(savedMode);
+
+    const popup = document.getElementById("popup-message");
+    popup.textContent = popupMessages[Math.floor(Math.random() * popupMessages.length)];
+    popup.style.opacity = 1;
+    setTimeout(() => popup.style.opacity = 0, 3000);
+
+    updateGameCount();
+};
+
+/* FULLSCREEN */
+function openFullscreen(url){
+    const iframe = document.createElement("iframe");
+    iframe.src = url;
+    iframe.className = "fullscreen";
+    document.body.appendChild(iframe);
+
+    const btn = document.getElementById("close-btn");
+    btn.style.display = "block";
+    btn.onclick = () => { iframe.remove(); btn.style.display = "none"; };
+}
+
+/* SEARCH */
+function filterGames() {
+    const input = searchInput.value.toLowerCase();
+    document.querySelectorAll(".game-card").forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(input) ? "block" : "none";
+    });
+}
+
+/* COUNTER */
+function updateGameCount() {
+    document.getElementById("game-counter").textContent =
+        document.querySelectorAll(".game-card").length + " Games currently..";
+}
+
+/* PARTICLES */
+particlesJS("particles-js", {
+    particles: {
+        number: { value: 80 },
+        color: { value: "#8000ff" },
+        size: { value: 4 },
+        move: { speed: 1 }
+    }
+});
+
+/* THEME */
+const colorPicker = document.getElementById('colorPicker');
+colorPicker.addEventListener('input', e => {
+    setAccentColor(e.target.value);
+    localStorage.setItem('accentColor', e.target.value);
+});
+function setAccentColor(color){
+    document.documentElement.style.setProperty('--accent-color', color);
+    colorPicker.value = color;
+}
+
+const modeToggle = document.getElementById('modeToggle');
+modeToggle.addEventListener('click', () => {
+    const currentMode = document.documentElement.getAttribute('data-mode') || 'dark';
+    const newMode = currentMode === 'dark' ? 'light' : 'dark';
+    setMode(newMode);
+    localStorage.setItem('mode', newMode);
+});
+function setMode(mode){
+    if(mode === 'dark'){
+        document.documentElement.setAttribute('data-mode','dark');
+        document.documentElement.style.setProperty('--background-color','#000');
+        document.documentElement.style.setProperty('--text-color','white');
+    }else{
+        document.documentElement.setAttribute('data-mode','light');
+        document.documentElement.style.setProperty('--background-color','white');
+        document.documentElement.style.setProperty('--text-color','black');
+    }
+}
+</script>
+</body>
+</html>
+
+    &copy; Aija Unblockedd S+
+</footer>
+
+<script>
+/* POPUP */
+const popupMessages = [
+    "Welcome to Aija unblocked.",
+    "join our discord!",
+    "Loading...",
+    "why is the sites code ALWAYS breaking??",
+    "Dev team NOWHERE to be seen...",
+    "Nerf TripWire dude please...",
+    "and i know that you know, that you know, that you mine..",
+    "SharkySab get a job..",
+    "Maxwell, youve been DEGLOVED.",
+    "Silver the fraudHog..",
+    "Github sites take like 5 years to update if you edited the code and commited changes..",
+    "AstraNova you actual bop bro",
 ];
 
 window.onload = () => {
     const popup = document.getElementById("popup-message");
-    popup.textContent = popupMessages[Math.floor(Math.random()*popupMessages.length)];
-    popup.style.opacity = "1";
-    setTimeout(()=>popup.style.opacity="0",3000);
+    popup.textContent = popupMessages[Math.floor(Math.random() * popupMessages.length)];
+    popup.style.opacity = 1;
+    setTimeout(() => popup.style.opacity = 0, 3000); // disappear after 3s
+    updateGameCount();
 };
 
-/* FULLSCREEN GAME */
-function openFullscreen(url){
-    const iframe=document.createElement("iframe");
-    iframe.src=url;
-    iframe.className="fullscreen";
+/* FULLSCREEN */
+function openFullscreen(url) {
+    const iframe = document.createElement("iframe");
+    iframe.src = url;
+    iframe.className = "fullscreen";
     document.body.appendChild(iframe);
-    const btn=document.getElementById("close-btn");
-    btn.style.display="block";
-    btn.onclick=()=>{iframe.remove();btn.style.display="none";}
+
+    const btn = document.getElementById("close-btn");
+    btn.style.display = "block";
+    btn.onclick = () => {
+        iframe.remove();
+        btn.style.display = "none";
+    };
 }
 
 /* SEARCH */
-function filterGames(){
-    const v=searchInput.value.toLowerCase();
-    document.querySelectorAll(".game-card").forEach(c=>{
-        c.style.display=c.innerText.toLowerCase().includes(v)?"block":"none";
+function filterGames() {
+    const input = searchInput.value.toLowerCase();
+    document.querySelectorAll(".game-card").forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(input)
+            ? "block"
+            : "none";
     });
 }
 
-/* PROFILE */
-profileBtn.onclick=()=>profileOverlay.style.display="flex";
-function closeProfile(){profileOverlay.style.display="none";}
-function saveProfile(){
-    localStorage.setItem("profile",JSON.stringify({
-        name:profileName.value,
-        email:profileEmail.value,
-        games:profileGames.value
-    }));
-    closeProfile();
+/* COUNTER */
+function updateGameCount() {
+    document.getElementById("game-counter").textContent =
+        document.querySelectorAll(".game-card").length + " Games currently..";
 }
 
-/* PARTICLES */
-particlesJS("particles-js",{particles:{number:{value:80},size:{value:4},move:{speed:1}}});
+/* PARTICLES CONFIG */
+particlesJS("particles-js", {
+    particles: {
+        number: { value: 80 },
+        color: { value: "#8000ff" },
+        size: { value: 4 },
+        move: { speed: 1 }
+    }
+});
 </script>
 
 </body>
