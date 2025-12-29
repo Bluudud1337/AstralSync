@@ -652,6 +652,9 @@ const popupMessages = [
     "Github sites take like 5 years to update if you edited the code and commited changes..",
     "AstraNova you actual bop bro",
 ];
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
 
 window.onload = () => {
     const popup = document.getElementById("popup-message");
@@ -702,9 +705,6 @@ particlesJS("particles-js", {
     }
 });
 </script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js");
-}
 
 </body>
 </html>
