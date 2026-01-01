@@ -1,4 +1,6 @@
-<!-- FULLSCREEN CHATROOM -->
+<!-- FULLSCREEN CHATROOM WITH PARTICLES -->
+<div id="particles-js" style="position:fixed;inset:0;z-index:-1;"></div>
+
 <div id="fullscreenChat" style="position:fixed;inset:0;background:var(--background-color);color:var(--text-color);display:flex;flex-direction:column;z-index:1000;">
     <!-- IMAGE PLACEHOLDER -->
     <div style="text-align:center;padding:10px;">
@@ -23,7 +25,50 @@
     </div>
 </div>
 
+<!-- PARTICLES JS LIBRARY -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
 <script>
+/* ==== PARTICLES ==== */
+particlesJS("particles-js", {
+    particles: {
+        number: { value: 80 },
+        color: { value: "#ffffff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5 },
+        size: { value: 3 },
+        line_linked: {
+            enable: true,
+            distance: 150,
+            color: "#ffffff",
+            opacity: 0.4,
+            width: 1
+        },
+        move: {
+            enable: true,
+            speed: 2,
+            direction: "none",
+            random: false,
+            straight: false,
+            out_mode: "out",
+            bounce: false
+        }
+    },
+    interactivity: {
+        detect_on: "canvas",
+        events: {
+            onhover: { enable: true, mode: "grab" },
+            onclick: { enable: true, mode: "push" },
+            resize: true
+        },
+        modes: {
+            grab: { distance: 140, line_linked: { opacity: 0.5 } },
+            push: { particles_nb: 4 }
+        }
+    },
+    retina_detect: true
+});
+
 /* ==== USERNAME ==== */
 let username = localStorage.getItem("chatUsername");
 if(!username){
@@ -32,7 +77,7 @@ if(!username){
 }
 
 /* ==== MODERATION ==== */
-const badWords = ["badword1","badword2","badword3"];
+const badWords = ["bitch","faggot","nigga","nigger","fuck"]; // add your blocked words here
 function cleanMessage(msg){
     let clean = msg;
     badWords.forEach(word => {
@@ -121,4 +166,3 @@ updateChatTheme();
 const observer = new MutationObserver(updateChatTheme);
 observer.observe(document.documentElement, { attributes: true, attributeFilter: ['style','data-mode'] });
 </script>
-
