@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aija Unblocked Search</title>
+<link rel="icon" href="icon.png">
+
+<style>
+:root {
+    --accent-color: #5a00e7;
+    --background-color: #000;
+    --text-color: white;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* SEARCH BOX */
+#searchForm {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#searchInput {
+    width: 400px;
+    max-width: 80vw;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 2px solid var(--accent-color);
+    background: var(--background-color);
+    color: var(--text-color);
+}
+
+#searchBtn {
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    background: var(--accent-color);
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+/* IFRAME */
+#resultsFrame {
+    width: 90vw;
+    height: 80vh;
+    border: 2px solid var(--accent-color);
+    border-radius: 10px;
+}
+</style>
+</head>
+<body>
+
+<h1>🌐 Aija Unblocked Search</h1>
+<p>Search the web safely using DuckDuckGo HTML results</p>
+
+<form id="searchForm" onsubmit="searchWeb(event)">
+    <input type="text" id="searchInput" placeholder="Type your query…">
+    <button id="searchBtn" type="submit">Search</button>
+</form>
+
+<iframe id="resultsFrame" src=""></iframe>
+
+<script>
+function searchWeb(event) {
+    event.preventDefault();
+    const query = document.getElementById("searchInput").value.trim();
+    if (!query) return;
+
+    // DuckDuckGo HTML version
+    const iframe = document.getElementById("resultsFrame");
+    iframe.src = `https://duckduckgo.com/html/?q=${encodeURIComponent(query)}`;
+}
+</script>
+
+</body>
+</html>
