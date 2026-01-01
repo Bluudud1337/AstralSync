@@ -7,14 +7,28 @@
         <img id="chatTopImage" src="icon.png" alt="Chat Image" style="max-width:150px;max-height:150px;border-radius:10px;">
     </div>
 
-    <!-- HEADER -->
-    <div id="chatHeader" style="display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:2px solid var(--accent-color);backdrop-filter: blur(10px);">
-        <div style="font-weight:bold;font-size:18px;">AijaChat</div>
-        <div>
-            <input type="color" id="chatColorPicker" title="Accent Color" style="margin-right:10px;">
-            <button id="chatModeToggle">Toggle Dark/Light</button>
-        </div>
+<!-- HEADER -->
+<div id="chatHeader" style="display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:2px solid var(--accent-color);backdrop-filter: blur(10px);">
+    <!-- Left: Chat Title -->
+    <div style="font-weight:bold;font-size:18px;">AijaChat</div>
+
+    <!-- Center: Optional Image -->
+    <div style="text-align:center;">
+        <img id="chatTopImage" src="icon.png" alt="Chat Image" style="max-width:100px;max-height:100px;border-radius:10px;">
     </div>
+
+    <!-- Right: Buttons + Theme Controls -->
+    <div style="display:flex;gap:10px;align-items:center;">
+        <!-- Navigation Buttons -->
+        <button onclick="location.href='index.html'" style="padding:5px 10px;border:none;border-radius:8px;color:white;background:linear-gradient(135deg,#7b5cff,#b200ff);cursor:pointer;font-weight:bold;">Games</button>
+        <button onclick="location.href='apps.html'" style="padding:5px 10px;border:none;border-radius:8px;color:white;background:linear-gradient(135deg,#7b5cff,#b200ff);cursor:pointer;font-weight:bold;">Apps</button>
+        <button onclick="location.href='ProxyLinks.html'" style="padding:5px 10px;border:none;border-radius:8px;color:white;background:linear-gradient(135deg,#7b5cff,#b200ff);cursor:pointer;font-weight:bold;">Proxy Links</button>
+
+        <!-- Theme Controls -->
+        <input type="color" id="chatColorPicker" title="Accent Color" style="padding:5px;border:none;border-radius:8px;background:linear-gradient(135deg,#7b5cff,#b200ff);cursor:pointer;">
+        <button id="chatModeToggle" style="padding:5px 10px;border:none;border-radius:8px;color:white;background:linear-gradient(135deg,#7b5cff,#b200ff);cursor:pointer;font-weight:bold;">Toggle Dark/Light</button>
+    </div>
+</div>
 
     <!-- MESSAGES -->
     <div id="chatMessages" style="flex:1;padding:10px;overflow-y:auto;font-size:16px;border-radius:10px;margin:10px 20px;"></div>
