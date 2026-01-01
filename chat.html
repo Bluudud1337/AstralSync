@@ -1,7 +1,7 @@
 <!-- FULLSCREEN CHATROOM WITH PARTICLES -->
-<div id="particles-js" style="position:fixed;inset:0;z-index:-1;"></div>
+<div id="particles-js" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;"></div>
 
-<div id="fullscreenChat" style="position:fixed;inset:0;background:var(--background-color);color:var(--text-color);display:flex;flex-direction:column;z-index:1000;">
+<div id="fullscreenChat" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);color:var(--text-color);display:flex;flex-direction:column;z-index:1;">
     <!-- IMAGE PLACEHOLDER -->
     <div style="text-align:center;padding:10px;">
         <img id="chatTopImage" src="icon.png" alt="Chat Image" style="max-width:150px;max-height:150px;border-radius:10px;">
@@ -21,7 +21,7 @@
 
     <!-- INPUT -->
     <div style="border-top:2px solid var(--accent-color);display:flex;">
-        <input id="chatInput" placeholder="Type a message..." style="flex:1;padding:10px;font-size:16px;border:none;background:var(--background-color);color:var(--text-color);outline:none;">
+        <input id="chatInput" placeholder="Type a message..." style="flex:1;padding:10px;font-size:16px;border:none;background:transparent;color:var(--text-color);outline:none;">
     </div>
 </div>
 
@@ -35,7 +35,7 @@ particlesJS("particles-js", {
         number: { value: 80 },
         color: { value: "#ffffff" },
         shape: { type: "circle" },
-        opacity: { value: 0.5 },
+        opacity: { value: 0.6 },
         size: { value: 3 },
         line_linked: {
             enable: true,
@@ -46,12 +46,9 @@ particlesJS("particles-js", {
         },
         move: {
             enable: true,
-            speed: 2,
-            direction: "none",
-            random: false,
-            straight: false,
+            speed: 1.5,
             out_mode: "out",
-            bounce: false
+            random: true
         }
     },
     interactivity: {
@@ -77,12 +74,12 @@ if(!username){
 }
 
 /* ==== MODERATION ==== */
-const badWords = ["bitch","faggot","nigga","nigger","fuck"]; // add your blocked words here
+const badWords = ["bitch","faggot","nigga","nigger","fuck"];
 function cleanMessage(msg){
     let clean = msg;
     badWords.forEach(word => {
         const regex = new RegExp(word,"gi");
-        clean = clean.replace(regex,"***");
+        clean = clean.replace(regex,"*no no word*");
     });
     return clean;
 }
@@ -123,8 +120,6 @@ colorPicker.addEventListener('input', e => {
     document.documentElement.style.setProperty('--accent-color', e.target.value);
     localStorage.setItem('chatAccentColor', e.target.value);
 });
-
-// Load saved accent color
 const savedColor = localStorage.getItem('chatAccentColor');
 if(savedColor) colorPicker.value = savedColor, document.documentElement.style.setProperty('--accent-color', savedColor);
 
@@ -136,33 +131,31 @@ modeToggle.addEventListener("click", () => {
     setMode(newMode);
     localStorage.setItem('chatMode', newMode);
 });
-
 function setMode(mode){
     if(mode === 'dark'){
         document.documentElement.setAttribute('data-mode','dark');
         document.documentElement.style.setProperty('--background-color','#000');
         document.documentElement.style.setProperty('--text-color','white');
+        document.getElementById("fullscreenChat").style.background = "rgba(0,0,0,0.5)";
     }else{
         document.documentElement.setAttribute('data-mode','light');
         document.documentElement.style.setProperty('--background-color','white');
         document.documentElement.style.setProperty('--text-color','#000');
+        document.getElementById("fullscreenChat").style.background = "rgba(255,255,255,0.5)";
     }
 }
-
-// Load saved mode
 const savedMode = localStorage.getItem('chatMode');
 if(savedMode) setMode(savedMode);
 
-/* ==== THEME UPDATE FOR CHATROOM ==== */
+/* ==== UPDATE INPUT COLORS ==== */
 function updateChatTheme(){
     const bg = getComputedStyle(document.documentElement).getPropertyValue('--background-color');
     const text = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
-    document.getElementById("fullscreenChat").style.background = bg;
-    document.getElementById("fullscreenChat").style.color = text;
-    chatInput.style.background = bg;
+    chatInput.style.background = "transparent";
     chatInput.style.color = text;
 }
 updateChatTheme();
 const observer = new MutationObserver(updateChatTheme);
-observer.observe(document.documentElement, { attributes: true, attributeFilter: ['style','data-mode'] });
+observer.observe(document.documentElement,{attributes:true,attributeFilter:['style','data-mode']});
 </script>
+
