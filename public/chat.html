@@ -63,7 +63,7 @@ if(!username){
 }
 
 /* ==== MODERATION ==== */
-const badWords = ["bitch","faggot","nigga","nigger","fuck"];
+const badWords = ["bitch","faggot","nigga","nigger","fuck","fucking","bitchass","faggots","N igger","n!gger"];
 function cleanMessage(msg){
     let clean = msg;
     badWords.forEach(word => { clean = clean.replace(new RegExp(word,"gi"),"*Bad Word*"); });
