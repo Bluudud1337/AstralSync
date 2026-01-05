@@ -1,31 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Full Site Embed</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Embedded Site</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: black;
+  font-family: Arial, sans-serif;
+}
+
+/* TOP BAR */
+header {
+  height: 56px;
+  background: #0b0014;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+}
+
+/* BUTTONS */
+button {
+  background: #1b002b;
+  color: #cfa8ff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #2a0044;
+}
+
+/* IFRAME */
+iframe {
+  width: 100%;
+  height: calc(100% - 56px);
+  border: none;
+}
+</style>
 </head>
+
 <body>
 
-<iframe 
-  src="https://0817d4d3-3752-41f3-abb2-0b91a521c789-00-im16rvnirir6.kirk.replit.dev/"
-  allow="fullscreen; autoplay; clipboard-read; clipboard-write"
-  referrerpolicy="no-referrer"
-></iframe>
+<header>
+  <button onclick="location.href='index.html'">Home</button>
+  <button onclick="location.href='apps.html'">Apps</button>
+  <button onclick="location.href='ProxyLinks.html'">Proxy Links</button>
+  <button onclick="location.href='BlankLauncher.html'">Blank Launcher</button>
+  <button onclick="location.href='chat.html'">Chatroom</button>
+</header>
+
+<iframe src=""></iframe>
 
 </body>
 </html>
