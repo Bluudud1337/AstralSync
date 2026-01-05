@@ -173,6 +173,7 @@ iframe.fullscreen {
 </style>
 
 <script>
+<script>
 /* ================= RANDOM FULLSCREEN POPUP MESSAGE ================= */
 const popupMessages = [
     "HA,HA, ONE!",
@@ -200,7 +201,6 @@ const popupMessages = [
     "This site is a new years gift btw...🎆",
 ];
 
-    
 const fonts = ["Arial", "Verdana", "Georgia", "Courier New", "Comic Sans MS", "Impact", "Tahoma"];
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -210,7 +210,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
     popup.textContent = randomMessage;
     popup.style.fontFamily = randomFont;
-
     popup.style.opacity = 1;
 
     setTimeout(() => {
@@ -220,18 +219,19 @@ window.addEventListener("DOMContentLoaded", () => {
 
 /* ================= APP FUNCTIONS ================= */
 function openFullscreen(url) {
-    const iframe = document.createElement('iframe');
+    const iframe = document.createElement("iframe");
     iframe.src = url;
-    iframe.className = 'fullscreen';
+    iframe.className = "fullscreen";
     iframe.allowFullscreen = true;
+
     document.body.appendChild(iframe);
 
-    const closeBtn = document.getElementById('close-btn');
-    closeBtn.style.display = 'block';
+    const closeBtn = document.getElementById("close-btn");
+    closeBtn.style.display = "block";
 
     closeBtn.onclick = () => {
         iframe.remove();
-        closeBtn.style.display = 'none';
+        closeBtn.style.display = "none";
     };
 }
 
@@ -244,9 +244,10 @@ function filterCards() {
         card.style.display = text.includes(input) ? "inline-block" : "none";
     }
 }
-<script>
+
+/* ================= SERVICE WORKER ================= */
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/sw.js");
+    navigator.serviceWorker.register("/sw.js");
 }
 </script>
 
