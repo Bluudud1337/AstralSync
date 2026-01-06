@@ -180,10 +180,10 @@ const popupMessages = [
     "Check out the apps below!",
     "GPT Common W🥹✌️❤️‍🩹",
     "Do stuff pal.",
-    "Ready or not, here i COME!",
+    "Ready or not, here i COME!"
     "You'll never be a GOD!",
     "Something's missing...",
-    "Im outta here!",
+    "Im outta here!", 
     "😳sohck wow",
     "*Ohio impressed*",
     "R3bloxian and ALT were here...",
@@ -205,16 +205,13 @@ const fonts = ["Arial", "Verdana", "Georgia", "Courier New", "Comic Sans MS", "I
 
 window.addEventListener("DOMContentLoaded", () => {
     const popup = document.getElementById("popup-message");
-    const randomMessage = popupMessages[Math.floor(Math.random() * popupMessages.length)];
-    const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
+    if (!popup) return;
 
-    popup.textContent = randomMessage;
-    popup.style.fontFamily = randomFont;
+    popup.textContent = popupMessages[Math.floor(Math.random() * popupMessages.length)];
+    popup.style.fontFamily = fonts[Math.floor(Math.random() * fonts.length)];
     popup.style.opacity = 1;
 
-    setTimeout(() => {
-        popup.style.opacity = 0;
-    }, 3000);
+    setTimeout(() => popup.style.opacity = 0, 3000);
 });
 
 /* ================= APP FUNCTIONS ================= */
@@ -240,17 +237,11 @@ function filterCards() {
     const cards = document.getElementsByClassName("app-card");
 
     for (let card of cards) {
-        const text = card.innerText.toLowerCase();
-        card.style.display = text.includes(input) ? "inline-block" : "none";
+        card.style.display = card.innerText.toLowerCase().includes(input)
+            ? "inline-block"
+            : "none";
     }
 }
-
-/* ================= SERVICE WORKER ================= */
-if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/sw.js");
-}
-</script>
-
 </script>
 </head>
 
