@@ -176,7 +176,6 @@ iframe.fullscreen {
 <script>
 /* ================= RANDOM FULLSCREEN POPUP MESSAGE ================= */
 const popupMessages = [
-const popupMessages = [
     "HA,HA, ONE!",
     "Check out the apps below!",
     "GPT Common W🥹✌️❤️‍🩹",
@@ -217,14 +216,12 @@ function openFullscreen(url) {
   iframe.src = url;
   iframe.className = "fullscreen";
 
-  // 🔥 REQUIRED FOR EMBEDDED SITES TO LOAD
   iframe.setAttribute(
     "sandbox",
     "allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-downloads allow-pointer-lock"
   );
 
   iframe.allowFullscreen = true;
-
   document.body.appendChild(iframe);
 
   const closeBtn = document.getElementById("close-btn");
@@ -234,7 +231,6 @@ function openFullscreen(url) {
     iframe.remove();
     closeBtn.style.display = "none";
   };
-
 }
 
 function filterCards() {
@@ -248,7 +244,7 @@ function filterCards() {
 }
 
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/sw.js");
+  navigator.serviceWorker.register("/sw.js").catch(() => {});
 }
 </script>
 </head>
