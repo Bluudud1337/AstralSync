@@ -2,23 +2,22 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Video Watcher test</title>
+<title>Media</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body {
   margin: 0;
   background: #000;
-  color: #fff;
+  color: white;
   font-family: Arial, sans-serif;
 }
 
-/* HEADER */
 header {
   padding: 15px;
-  background: #090009;
   display: flex;
   gap: 10px;
+  background: #0b0014;
 }
 
 input {
@@ -30,40 +29,32 @@ input {
 }
 
 button {
-  padding: 12px 18px;
-  border: none;
+  padding: 12px 20px;
   border-radius: 8px;
-  cursor: pointer;
-  background: linear-gradient(135deg,#7f00ff,#b56cff);
+  border: none;
+  background: #7f00ff;
   color: white;
-  font-weight: bold;
+  cursor: pointer;
 }
 
-/* PLAYER */
 #player iframe {
   width: 100%;
   height: 60vh;
   border: none;
 }
 
-/* RESULTS */
 #results {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 15px;
   padding: 15px;
 }
 
 .video {
-  background: #0d0016;
+  background: #12001f;
   border-radius: 10px;
-  cursor: pointer;
   overflow: hidden;
-  transition: transform .15s;
-}
-
-.video:hover {
-  transform: scale(1.03);
+  cursor: pointer;
 }
 
 .video img {
@@ -72,8 +63,8 @@ button {
 }
 
 .video p {
-  padding: 8px;
   font-size: 14px;
+  padding: 8px;
 }
 </style>
 </head>
@@ -81,95 +72,60 @@ button {
 <body>
 
 <header>
-  <input id="search" placeholder="Search videos..." />
-  <button onclick="searchVideos()">Search</button>
+  <input id="q" placeholder="Search videos…" />
+  <button onclick="search()">Search</button>
 </header>
 
 <div id="player"></div>
 <div id="results"></div>
 
 <script>
-/* ================= INVIDIOUS INSTANCES ================= */
-const INSTANCES = [
-  "https://vid.puffyan.us",
-  "https://invidious.fdn.fr",
-  "https://yewtu.be",
-  "https://invidious.snopyta.org"
-];
 
-let instance = null;
+const API = "https://piped.video";
+const CORS = "https://api.allorigins.win/raw?url=";
 
-/* ================= INSTANCE PICKER ================= */
-async function getInstance() {
-  if (instance) return instance;
-
-  for (const url of INSTANCES) {
-    try {
-      const testURL = `https://api.allorigins.win/raw?url=` +
-        encodeURIComponent(`${url}/api/v1/search?q=test&type=video`);
-      const r = await fetch(testURL);
-      if (r.ok) {
-        instance = url;
-        console.log("Using Invidious:", url);
-        return url;
-      }
-    } catch {}
-  }
-
-  alert("No video services available.");
-  throw new Error("No instance");
-}
-
-/* ================= SEARCH ================= */
-async function searchVideos() {
-  const q = document.getElementById("search").value.trim();
+async function search() {
+  const q = document.getElementById("q").value.trim();
   if (!q) return;
 
   const results = document.getElementById("results");
-  results.innerHTML = "<p>Searching...</p>";
+  results.innerHTML = "Searching…";
 
   try {
-    const inst = await getInstance();
-    const apiURL = `${inst}/api/v1/search?q=${encodeURIComponent(q)}&type=video`;
-
-    const res = await fetch(
-      "https://api.allorigins.win/raw?url=" + encodeURIComponent(apiURL)
-    );
-
+    const url = `${API}/api/v1/search?q=${encodeURIComponent(q)}&type=video`;
+    const res = await fetch(CORS + encodeURIComponent(url));
     const data = await res.json();
+
     results.innerHTML = "";
 
-    data.slice(0, 24).forEach(v => {
+    data.items.slice(0, 30).forEach(v => {
+      const id = v.url.split("v=")[1];
       const div = document.createElement("div");
       div.className = "video";
       div.innerHTML = `
-        <img src="${v.videoThumbnails?.[3]?.url || ""}">
+        <img src="${v.thumbnail}">
         <p>${v.title}</p>
       `;
-      div.onclick = () => playVideo(v.videoId);
+      div.onclick = () => play(id);
       results.appendChild(div);
     });
 
-  } catch (e) {
-    console.error(e);
-    results.innerHTML = "<p>Search failed.</p>";
+  } catch {
+    results.innerHTML = "Failed to load results.";
   }
 }
 
-/* ================= PLAYER ================= */
-function playVideo(id) {
+function play(id) {
   document.getElementById("player").innerHTML = `
     <iframe
-      src="${instance}/embed/${id}"
-      allowfullscreen
-      referrerpolicy="no-referrer"
-    ></iframe>
+      src="https://piped.video/embed/${id}"
+      allowfullscreen>
+    </iframe>
   `;
 }
 
-/* ================= ENTER KEY ================= */
-document.getElementById("search").addEventListener("keydown", e => {
-  if (e.key === "Enter") searchVideos();
+document.getElementById("q").addEventListener("keydown", e => {
+  if (e.key === "Enter") search();
 });
 </script>
 
