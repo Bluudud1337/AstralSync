@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>AijaYT</title>
+<title>Video Watcher test</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -89,6 +89,7 @@ button {
 <div id="results"></div>
 
 <script>
+/* ================= INVIDIOUS INSTANCES ================= */
 const INSTANCES = [
   "https://vid.puffyan.us",
   "https://invidious.fdn.fr",
@@ -98,15 +99,18 @@ const INSTANCES = [
 
 let instance = null;
 
+/* ================= INSTANCE PICKER ================= */
 async function getInstance() {
   if (instance) return instance;
 
   for (const url of INSTANCES) {
     try {
-      const r = await fetch(`${url}/api/v1/search?q=test&type=video`);
+      const testURL = `https://api.allorigins.win/raw?url=` +
+        encodeURIComponent(`${url}/api/v1/search?q=test&type=video`);
+      const r = await fetch(testURL);
       if (r.ok) {
         instance = url;
-        console.log("Using:", url);
+        console.log("Using Invidious:", url);
         return url;
       }
     } catch {}
@@ -116,6 +120,7 @@ async function getInstance() {
   throw new Error("No instance");
 }
 
+/* ================= SEARCH ================= */
 async function searchVideos() {
   const q = document.getElementById("search").value.trim();
   if (!q) return;
@@ -125,11 +130,13 @@ async function searchVideos() {
 
   try {
     const inst = await getInstance();
-    const res = await fetch(
-      `${inst}/api/v1/search?q=${encodeURIComponent(q)}&type=video`
-    );
-    const data = await res.json();
+    const apiURL = `${inst}/api/v1/search?q=${encodeURIComponent(q)}&type=video`;
 
+    const res = await fetch(
+      "https://api.allorigins.win/raw?url=" + encodeURIComponent(apiURL)
+    );
+
+    const data = await res.json();
     results.innerHTML = "";
 
     data.slice(0, 24).forEach(v => {
@@ -144,10 +151,12 @@ async function searchVideos() {
     });
 
   } catch (e) {
+    console.error(e);
     results.innerHTML = "<p>Search failed.</p>";
   }
 }
 
+/* ================= PLAYER ================= */
 function playVideo(id) {
   document.getElementById("player").innerHTML = `
     <iframe
@@ -158,6 +167,7 @@ function playVideo(id) {
   `;
 }
 
+/* ================= ENTER KEY ================= */
 document.getElementById("search").addEventListener("keydown", e => {
   if (e.key === "Enter") searchVideos();
 });
