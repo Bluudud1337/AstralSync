@@ -204,9 +204,6 @@ const popupMessages = [
 const fonts = ["Arial", "Verdana", "Georgia"];
 
 window.addEventListener("DOMContentLoaded", () => {
-      alert("67 so funny right guys");
-
-    
   const popup = document.getElementById("popup-message");
   popup.textContent = popupMessages[Math.floor(Math.random() * popupMessages.length)];
   popup.style.fontFamily = fonts[Math.floor(Math.random() * fonts.length)];
@@ -234,6 +231,11 @@ function openFullscreen(url) {
     iframe.remove();
     closeBtn.style.display = "none";
   };
+}
+
+function openBallSimulation() {
+  alert("⚠️ Heads up!\n\nBall Simulation takes longer than usual to load.\nPlease be patient.");
+  openFullscreen("https://abouris.github.io/bouncing_balls/");
 }
 
 function filterCards() {
@@ -598,7 +600,7 @@ if ("serviceWorker" in navigator) {
                 <h3>Demon</h3>
             </div>
 
-            <div class="app-card" onclick="openWithWarning('https://abouris.github.io/bouncing_balls/')">
+            <div class="app-card" onclick="openBallSimulation()">
                 <img src="https://yt3.googleusercontent.com/5MU8j5P5d073-qEu7MoxzLOADuzwCbr7eEZPKYYDODovyS_cQUVHzeE0W4sMtvwsbnITXMQo6iA=s900-c-k-c0x00ffffff-no-rj">
                 <h3>Ball Simulation</h3>
                 
