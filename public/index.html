@@ -210,6 +210,32 @@ iframe.fullscreen {
 <meta name="theme-color" content="#5a00e7">
 
 <body>
+  <!-- ================= SIGNUP OVERLAY ================= -->
+  <div id="signup-overlay" style="
+      position: fixed;
+      inset: 0;
+      background: #000;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      font-family: Arial, sans-serif;
+  ">
+      <h1>Sign Up to Continue</h1>
+      <input type="text" id="username" placeholder="Username" style="padding:10px; margin:10px; width:250px;">
+      <input type="email" id="email" placeholder="Email" style="padding:10px; margin:10px; width:250px;">
+      <label style="margin:10px;">
+          <input type="checkbox" id="terms"> You acknowledge that Aija Unblockedd is not responsible for any trouble you get in with school staff, tech mangement, etc.
+      </label>
+      <button id="signup-btn" style="padding:10px 20px; margin-top:10px; cursor:pointer;">Confirm</button>
+      <p id="signup-error" style="color:red; margin-top:10px;"></p>
+  </div>
+
+  <div id="particles-js"></div>
+  <div id="popup-message"></div>
+
 <div id="particles-js"></div>
 <div id="popup-message"></div>
 
@@ -840,6 +866,46 @@ function setMode(mode){
     });
   }
 </script>
+<!-- SIGNUP SCRIPT -->
+<script>
+  // Check if user already signed up (localStorage)
+  if(localStorage.getItem('signedUp') === 'true'){
+      document.getElementById('signup-overlay').style.display = 'none';
+  }
+
+  document.getElementById('signup-btn').onclick = function(){
+      const username = document.getElementById('username').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const terms = document.getElementById('terms').checked;
+      const error = document.getElementById('signup-error');
+
+      if(!username || !email){
+          error.textContent = 'Please fill in all fields.';
+          return;
+      }
+      if(!terms){
+          error.textContent = 'You must agree to the terms.';
+          return;
+      }
+
+      // Optionally: basic email validation
+      if(!email.includes('@')){
+          error.textContent = 'Please enter a valid email.';
+          return;
+      }
+
+      // Save to localStorage so it only shows once
+      localStorage.setItem('signedUp', 'true');
+      localStorage.setItem('username', username);
+      localStorage.setItem('email', email);
+
+      // Hide overlay
+      document.getElementById('signup-overlay').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
 
 </body>
 </html>
