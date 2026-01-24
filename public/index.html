@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Axon</title>
+<title>Axon Unblocked X+</title>
 <link rel="icon" href="icon.png">
 <link rel="manifest" href="manifest.json">
 
@@ -22,15 +22,11 @@ body {
     overflow-x: hidden;
 }
 
-/* RED & BLACK WAVE BACKGROUND */
+/* WAVE BACKGROUND */
 #wave-bg {
     position: fixed;
     inset: 0;
     z-index: -1;
-}
-
-canvas {
-    display: block;
 }
 
 /* POPUP */
@@ -673,52 +669,20 @@ iframe.fullscreen {
         <div class="game-card" onclick="openFullscreen('https://www.archive.play-games.com/games/archive/3/StickWithIt/index.html')">
             <img src="https://tse2.mm.bing.net/th/id/OIP.xr6HeXS5QL6X6OuRCrrcVgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3">
             <h3>Stick with it</h3>
-
+    </div>
 </div>
 
 <script>
-// POPUP MESSAGE LOGIC
+// SHOW POPUP ONCE
 const popup = document.getElementById("popup-message");
-const messages = [
-    "Welcome to Axon.",
-    "join our discord!",
-    "Loading...",
-    "why is the sites code ALWAYS breaking??",
-    "Dev team NOWHERE to be seen...",
-    "Nerf TripWire dude please...",
-    "SharkySab get a job..",
-    "Maxwell, youve been DEGLOVED.",
-    "Silver the fraudHog..",
-    "Alot of genuine effort and love has been put into this project, thanks for playing.. ",
-    "3,2,1..",
-    "i just wanted to see tung tung tung saheur..💔",
-    "if everytime i got mad at gpt were = stuns i would have had 50 ragemodes by now....",
-    "frayek is a corn ball.",
-    "frayek needs to be DEGLOVED",
-    "frayek is the best at geometry dash...",
-    "follow @frayek🌺 on tiktok",
-    "bring back hyper sonic...",
-    "https://t9os.vercel.app/class.html",
-    "why does nobody use the apps?",
-    "Check out the apps!",
-];
-let currentIndex = 0;
-
-function showPopupMessage() {
-    popup.textContent = messages[currentIndex];
-    popup.style.opacity = 1;
-    popup.style.pointerEvents = "auto";
-
-    setTimeout(() => {
-        popup.style.opacity = 0;
-        popup.style.pointerEvents = "none";
-    }, 3000);
-
-    currentIndex = (currentIndex + 1) % messages.length;
-}
-
-showPopupMessage();
-setInterval(showPopupMessage, 5000);
+const message = "Welcome to Axon Unblocked X+!";
+popup.textContent = message;
+popup.style.opacity = 1;
+popup.style.pointerEvents = "auto";
+setTimeout(() => {
+    popup.style.opacity = 0;
+    popup.style.pointerEvents = "none";
+}, 3000);
 
 // FULLSCREEN GAME LOGIC
 const closeBtn = document.getElementById("close-btn");
@@ -743,6 +707,40 @@ function filterGames() {
         card.style.display = title.includes(input) ? "block" : "none";
     });
 }
+
+// RED & BLACK WAVES
+const canvas = document.getElementById("wave-bg");
+const ctx = canvas.getContext("2d");
+let width, height;
+function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+let t = 0;
+function draw() {
+    ctx.clearRect(0,0,width,height);
+
+    for(let i=0;i<3;i++){
+        ctx.beginPath();
+        ctx.moveTo(0,height/2);
+        for(let x=0;x<width;x++){
+            let y = height/2 + Math.sin((x*0.02)+(t+i)) * 50 * (i+1)/3;
+            ctx.lineTo(x,y);
+        }
+        ctx.lineTo(width,height);
+        ctx.lineTo(0,height);
+        ctx.closePath();
+        ctx.fillStyle = i%2===0 ? "rgba(255,0,0,0.3)" : "rgba(0,0,0,0.3)";
+        ctx.fill();
+    }
+
+    t += 0.05;
+    requestAnimationFrame(draw);
+}
+draw();
 </script>
 </body>
 </html>
