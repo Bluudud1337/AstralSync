@@ -148,33 +148,6 @@ header button {
     border-radius: 10px 10px 0 0;
 }
 
-     <script>
-function filterGames() {
-    const input = document.getElementById('searchInput').value.toLowerCase();
-    const games = document.querySelectorAll('.game-card');
-    let count = 0;
-
-    games.forEach(game => {
-        const title = game.querySelector('h3').textContent.toLowerCase();
-        if (title.includes(input)) {
-            game.style.display = ''; // show
-            count++;
-        } else {
-            game.style.display = 'none'; // hide
-        }
-    });
-
-    // Update counter
-    document.getElementById('game-counter').textContent = count + " Games";
-}
-
-// Initialize counter on page load
-window.addEventListener('DOMContentLoaded', () => {
-    const games = document.querySelectorAll('.game-card');
-    document.getElementById('game-counter').textContent = games.length + " Games";
-});
-</script>
-
 /* FULLSCREEN GAME */
 iframe.fullscreen {
     position: fixed;
@@ -811,90 +784,53 @@ document.getElementById('close-btn').addEventListener('click', () => {
     document.getElementById('close-btn').style.display = 'none';
 });
 
+// PLANET BACKGROUND
+<canvas id="planet-bg"></canvas>
+
 <script>
-// PLANET WITH RING BACKGROUND
-const canvas = document.getElementById('wave-bg');
+const canvas = document.getElementById('planet-bg');
 const ctx = canvas.getContext('2d');
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-// Planet properties
-const planet = {
-    x: canvas.width / 2,
-    y: canvas.height / 2,
-    radius: 80,
-    color: '#7f3fff' // brighter purple
-};
-
-// Ring properties
-const ring = {
-    innerRadius: 100,
-    outerRadius: 120,
-    color: 'rgba(200, 150, 255, 0.7)', // brighter, more visible
-    lineWidth: 6,
-    rotation: 0
-};
-
-// Generate star field
-const stars = [];
-for (let i = 0; i < 150; i++) {
-    stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        radius: Math.random() * 2
-    });
-}
-
-function drawStars() {
-    stars.forEach(star => {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'white';
-        ctx.fill();
-    });
-}
-
-function animatePlanet() {
+function drawPlanet() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw space background
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Planet
+    const planetX = canvas.width / 2;
+    const planetY = canvas.height / 2;
+    const planetRadius = 100;
 
-    // Draw stars
-    drawStars();
+    const gradient = ctx.createRadialGradient(planetX, planetY, planetRadius*0.1, planetX, planetY, planetRadius);
+    gradient.addColorStop(0, '#320ff0');
+    gradient.addColorStop(1, '#000');
 
-    // Draw rotating ring
-    ctx.save();
-    ctx.translate(planet.x, planet.y);
-    ctx.rotate(ring.rotation);
+    ctx.fillStyle = gradient;
     ctx.beginPath();
-    ctx.ellipse(0, 0, ring.outerRadius, ring.innerRadius, 0, 0, Math.PI * 2);
-    ctx.strokeStyle = ring.color;
-    ctx.lineWidth = ring.lineWidth;
-    ctx.stroke();
-    ctx.restore();
-
-    // Draw planet with glow
-    ctx.beginPath();
-    ctx.shadowColor = planet.color;
-    ctx.shadowBlur = 30;
-    ctx.arc(planet.x, planet.y, planet.radius, 0, Math.PI * 2);
-    ctx.fillStyle = planet.color;
+    ctx.arc(planetX, planetY, planetRadius, 0, Math.PI * 2);
     ctx.fill();
-    ctx.shadowBlur = 0; // reset shadow
 
-    // Rotate the ring slightly
-    ring.rotation += 0.01;
-
-    requestAnimationFrame(animatePlanet);
+    // Ring
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.ellipse(planetX, planetY, planetRadius + 50, planetRadius + 10, Math.PI / 4, 0, Math.PI * 2);
+    ctx.stroke();
 }
-animatePlanet();
+
+function animate() {
+    drawPlanet();
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+// Resize canvas on window resize
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
 </script>
 </body>
 </html>
