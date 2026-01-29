@@ -784,35 +784,49 @@ document.getElementById('close-btn').addEventListener('click', () => {
     document.getElementById('close-btn').style.display = 'none';
 });
 
-// WAVE BACKGROUND CANVAS
-const canvas = document.getElementById('wave-bg');
+// PLANET BACKGROUND
+<canvas id="planet-bg"></canvas>
+
+<script>
+const canvas = document.getElementById('planet-bg');
 const ctx = canvas.getContext('2d');
+
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let waves = [];
-for (let i = 0; i < 5; i++) {
-    waves.push({y: canvas.height / 2, amplitude: 30 + i*10, speed: 0.02 + i*0.01, offset: i*100});
-}
-
-function animateWaves() {
+function drawPlanet() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'rgba(50, 15, 240, 0.2)';
-    waves.forEach(w => {
-        ctx.beginPath();
-        for (let x = 0; x < canvas.width; x++) {
-            ctx.lineTo(x, w.y + Math.sin(x * 0.02 + w.offset) * w.amplitude);
-        }
-        ctx.lineTo(canvas.width, canvas.height);
-        ctx.lineTo(0, canvas.height);
-        ctx.closePath();
-        ctx.fill();
-        w.offset += w.speed;
-    });
-    requestAnimationFrame(animateWaves);
-}
-animateWaves();
 
+    // Planet
+    const planetX = canvas.width / 2;
+    const planetY = canvas.height / 2;
+    const planetRadius = 100;
+
+    const gradient = ctx.createRadialGradient(planetX, planetY, planetRadius*0.1, planetX, planetY, planetRadius);
+    gradient.addColorStop(0, '#320ff0');
+    gradient.addColorStop(1, '#000');
+
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(planetX, planetY, planetRadius, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Ring
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.ellipse(planetX, planetY, planetRadius + 50, planetRadius + 10, Math.PI / 4, 0, Math.PI * 2);
+    ctx.stroke();
+}
+
+function animate() {
+    drawPlanet();
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+// Resize canvas on window resize
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
