@@ -7,9 +7,12 @@
 <link rel="icon" type="https://academic-mathwork.vercel.app/icon-512.png">
 <link rel="manifest" href="/manifest.json">
 
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6507880772375833"
+     crossorigin="anonymous"></script>
+    
 <style>
 :root {
-    --accent-color: #ff0000;
+    --accent-color: #320ff0;
     --background-color: #000;
     --text-color: #fff;
 }
@@ -37,7 +40,7 @@ body {
     align-items: center;
     justify-content: center;
     background-color: #000;
-    color: #ff0000;
+    color: #320ff0;
     font-size: 2.5em;
     font-weight: bold;
     text-align: center;
@@ -708,6 +711,18 @@ iframe.fullscreen {
         <div class="game-card" onclick="openFullscreen('https://data.unblockedgamers.com/file/h5games/onlinegames/games/2021/short-life-2/index.html')">
             <img src="https://tse3.mm.bing.net/th/id/OIP._gXE_o_hWVlYaETmqQiwwQHaFj?rs=1&pid=ImgDetMain&o=7&rm=3">
             <h3>Short life 2</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://www.rocketgames.io/gameframe/bleach-vs-naruto')">
+            <img src="https://th.bing.com/th/id/OIP.K1hJZkNxCT3HGg3lOYpuaAHaEo?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Bleach vs Naruto</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://www.rocketgames.io/gameframe/defly-io')">
+            <img src="https://cdn-1.webcatalog.io/catalog/defly-io/defly-io-icon-filled-256.png?v=1675590551595">
+            <h3>Defly.io</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://files.rocketgames.io/uploads/games/p/pixel-speedrun/files/85bc97/index.html')">
+            <img src="https://tse2.mm.bing.net/th/id/OIP.gP6ysHWWmM74-Y4FwqqfwQHaEP?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Pixel Speedrun</h3>
 </div>
 
 <script>
@@ -754,7 +769,7 @@ window.addEventListener("load", ()=>{
     setTimeout(()=>{ popup.style.opacity = 0; }, 3000);
 });
 
-// ----------------- RED & BLACK WAVE -----------------
+// ----------------- Blue & BLACK WAVE -----------------
 const canvas = document.getElementById("wave-bg");
 const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
@@ -763,7 +778,7 @@ canvas.height = window.innerHeight;
 let waveOffset = 0;
 function drawWave() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#ff0000";
+    ctx.fillStyle = "#320ff0";
     ctx.beginPath();
     for(let x=0;x<canvas.width;x++){
         let y = 50*Math.sin((x+waveOffset)/50) + canvas.height/2;
@@ -785,8 +800,10 @@ window.addEventListener("resize", ()=>{
 });
 </script>
 
+    <div>
 <footer>
     <p>&copy; Axon Unblockedd</p>
 </footer>
+    </div>
 </body>
 </html>
