@@ -8,21 +8,30 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            background-color: #1e1e1e;
+            background-color: #000;
             display: flex;
             justify-content: center;
             align-items: center;
+            font-family: sans-serif;
+            color: #fff;
         }
         #vm-container {
-            width: 90%;
-            height: 90%;
+            width: 80%;
+            height: 80%;
             border: 2px solid #444;
-            border-radius: 10px;
-            overflow: hidden;
+            border-radius: 5px;
+        }
+        h1 {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 24px;
+            color: #0ff;
         }
     </style>
 </head>
 <body>
+    <h1>AstralVM</h1>
     <div id="vm-container"></div>
 
     <!-- Include v86 library -->
@@ -32,13 +41,16 @@
 
         const emulator = new V86Starter({
             wasm_path: "https://copy.sh/v86/build/v86.wasm",
-            memory_size: 128 * 1024 * 1024, // 128MB RAM
-            vga_memory_size: 8 * 1024 * 1024,
+            memory_size: 64 * 1024 * 1024, // 64MB RAM
             screen_container: container,
             bios: { url: "https://copy.sh/v86/images/seabios.bin" },
             vga_bios: { url: "https://copy.sh/v86/images/vgabios.bin" },
-            fda: { url: "https://copy.sh/v86/images/freedos.img" }, // FreeDOS image
+            fda: { url: "https://copy.sh/v86/images/freedos.img" },
             autostart: true
+        });
+
+        emulator.add_listener("emulator-ready", () => {
+            console.log("AstralVM is ready!");
         });
     </script>
 </body>
