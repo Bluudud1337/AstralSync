@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AstralOS</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Segoe UI",sans-serif;
+}
+
+body{
+  height:100vh;
+  background:linear-gradient(135deg,#1e1e2f,#2b2b45);
+  background-size:cover;
+  background-position:center;
+  overflow:hidden;
+  color:white;
+}
+
+/* Desktop */
+.desktop{
+  height:calc(100vh - 60px);
+  padding:20px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  overflow-y:auto;
+}
+
+/* Game Cards */
+.game-icon,.game-card{
+  width:120px;
+  height:130px;
+  cursor:pointer;
+  text-align:center;
+  background:rgba(255,255,255,0.05);
+  border-radius:10px;
+  padding:10px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  transition:0.2s;
+}
+
+.game-icon img,.game-card img{
+  width:80px;
+  height:80px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+.game-icon h3,.game-card h3{
+  margin-top:5px;
+  font-size:14px;
+}
+
+/* Dock */
+.dock{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  height:60px;
+  background:rgba(20,20,30,0.95);
+  backdrop-filter:blur(10px);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+  border-top:1px solid rgba(255,255,255,0.1);
+  z-index:9999;
+}
+
+.dock-icon{
+  width:45px;
+  height:45px;
+  background:rgba(255,255,255,0.1);
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:0.2s;
+  font-size:20px;
+}
+
+.dock-icon:hover{
+  transform:scale(1.15);
+  background:rgba(255,255,255,0.2);
+}
+
+.dock-right{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  cursor:pointer;
+  min-width:120px;
+}
+
+#clock{
+  font-size:16px;
+  font-weight:bold;
+}
+
+#date{
+  font-size:12px;
+  opacity:0.8;
+}
+
+/* Windows */
+.window{
+  position:absolute;
+  width:500px;
+  height:400px;
+  background:rgba(30,30,40,0.98);
+  border-radius:14px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.6);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+.window-header{
+  padding:8px 12px;
+  background:rgba(0,0,0,0.5);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor:move;
+}
+
+.window-body{
+  flex:1;
+}
+
+.window-body iframe{
+  width:100%;
+  height:100%;
+  border:none;
+}
+
+.window-content{
+  padding:15px;
+}
+
+.hidden{
+  display:none;
+}
+
+input[type="text"],input[type="file"]{
+  width:100%;
+  padding:8px;
+  margin:5px 0 10px;
+  border-radius:8px;
+  border:none;
+}
+
+button{
+  padding:6px 10px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  background:#4c6fff;
+  color:white;
+  font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="desktop">
+
+  <div class="game-icon" onclick="createWindow('Krunker','https://krunker.io/')">
+    <img src="https://krunker.io/img/favicon.png">
+    <h3>Krunker</h3>
+  </div>
+
+  <div class="game-icon" onclick="createWindow('Agar.io','https://agar.io/')">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Agar.io_logo.svg/512px-Agar.io_logo.svg.png">
+    <h3>Agar</h3>
+  </div>
+
+  <div class="game-card" onclick="createWindow('Slither.io','https://slither.io/')">
+    <img src="https://media.pocketgamer.com/artwork/na-kcwl/image_jpeg_820.jpg">
+    <h3>Slither.io</h3>
+  </div>
+
+  <div class="game-card" onclick="createWindow('Shell Shockers','https://shellshock.io/')">
+    <img src="https://slopegame.io/upload/imgs/shell-shockers-logo.jpg">
+    <h3>Shell Shockers</h3>
+  </div>
+
+  <div class="game-card" onclick="createWindow('Diep.io','https://diep.io/')">
+    <img src="https://tse2.mm.bing.net/th/id/OIP.SoA7WalxosSMghPoFU8xUQAAAA">
+    <h3>Diep.io</h3>
+  </div>
+
+  <div class="game-card" onclick="createWindow('Tag','https://htmlxm.github.io/h3/tag/')">
+    <img src="https://cdn-1.webcatalog.io/catalog/poki-tag/poki-tag-icon-filled-256.png">
+    <h3>Tag</h3>
+  </div>
+
+  <div class="game-card" onclick="createWindow('Sonic 2 Heroes','https://playsonicgames.com/embed/sonic-2-heroes.html')">
+    <img src="https://i.ytimg.com/vi/6l0yZTA_W84/maxresdefault.jpg">
+    <h3>Sonic 2 Heroes</h3>
+  </div>
+
+  <div class="game-card" onclick="createWindow('Sonic ❄️ Adventures','https://playsonicgames.com/embed/sonic-winter-adventures.html')">
+    <img src="https://tse4.mm.bing.net/th/id/OIP.JD8ZvkHEC5ZCMSU_NpjQjAHaHa">
+    <h3>Sonic ❄️ Adventures</h3>
+  </div>
+
+  <div class="game-card" onclick="createWindow('Baldi\'s Basics','https://baldisbasics.gitlab.io/file/')">
+    <img src="https://tse1.mm.bing.net/th/id/OIP.mVKO5R9DdbIGnXtwrgzHVwHaHa">
+    <h3>Baldi's Basics</h3>
+  </div>
+
+</div>
+
+<!-- Background Settings -->
+<div id="bgSettings" class="window hidden" style="top:100px; left:100px;">
+  <div class="window-header">
+    <span>Background Settings</span>
+    <button onclick="closeBgSettings()">X</button>
+  </div>
+  <div class="window-content">
+    <h3>Upload Background</h3>
+    <input type="file" id="bgUpload" accept="image/*">
+
+    <h3>Paste Image URL</h3>
+    <input type="text" id="bgUrlInput" placeholder="https://example.com/image.jpg">
+    <button onclick="setBgFromUrl()">Set from URL</button>
+  </div>
+</div>
+
+<div class="dock">
+  <div class="dock-icon" onclick="openBgSettings()">⚙</div>
+  <div class="dock-right" onclick="toggleClockFormat()">
+    <div id="clock"></div>
+    <div id="date"></div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+let topZ = 100;
+
+/* ================= WINDOW SYSTEM ================= */
+
+function bringToFront(win){
+  topZ++;
+  win.style.zIndex = topZ;
+}
+
+function makeDraggable(win){
+  if(!win) return;
+
+  const header = win.querySelector(".window-header");
+  if(!header) return;
+
+  let offsetX = 0, offsetY = 0, dragging = false;
+
+  header.addEventListener("mousedown", e=>{
+    bringToFront(win);
+    dragging = true;
+    offsetX = e.clientX - win.offsetLeft;
+    offsetY = e.clientY - win.offsetTop;
+  });
+
+  document.addEventListener("mousemove", e=>{
+    if(!dragging) return;
+    win.style.left = e.clientX - offsetX + "px";
+    win.style.top  = e.clientY - offsetY + "px";
+  });
+
+  document.addEventListener("mouseup", ()=> dragging = false);
+}
+
+window.createWindow = function(title,url){
+  const win = document.createElement("div");
+  win.className = "window";
+  win.style.top = "120px";
+  win.style.left = "120px";
+
+  win.innerHTML = `
+    <div class="window-header">
+      <span>${title}</span>
+      <div style="display:flex; gap:6px;">
+        <button onclick="this.closest('.window').remove()">X</button>
+        <button onclick="toggleFullscreen(this.closest('.window'))">⛶</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <iframe src="${url}" allowfullscreen></iframe>
+    </div>
+  `;
+
+  document.body.appendChild(win);
+  bringToFront(win);
+  makeDraggable(win);
+}
+
+window.toggleFullscreen = function(win){
+  if(!win.dataset.fullscreen){
+    win.dataset.prev = JSON.stringify({
+      width: win.style.width,
+      height: win.style.height,
+      top: win.style.top,
+      left: win.style.left
+    });
+
+    win.style.top = "0";
+    win.style.left = "0";
+    win.style.width = "100vw";
+    win.style.height = "100vh";
+    win.dataset.fullscreen = "true";
+  } else {
+    const prev = JSON.parse(win.dataset.prev);
+    win.style.width = prev.width;
+    win.style.height = prev.height;
+    win.style.top = prev.top;
+    win.style.left = prev.left;
+    delete win.dataset.fullscreen;
+  }
+}
+
+/* ================= BACKGROUND SETTINGS ================= */
+
+const bgWindow = document.getElementById("bgSettings");
+makeDraggable(bgWindow);
+
+window.openBgSettings = function(){
+  if(!bgWindow) return;
+  bgWindow.classList.remove("hidden");
+  bringToFront(bgWindow);
+}
+
+window.closeBgSettings = function(){
+  if(!bgWindow) return;
+  bgWindow.classList.add("hidden");
+}
+
+function setBackground(src){
+  document.body.style.backgroundImage = `url(${src})`;
+  localStorage.setItem("osBackground", src);
+}
+
+window.setBgFromUrl = function(){
+  const input = document.getElementById("bgUrlInput");
+  if(input && input.value){
+    setBackground(input.value);
+  }
+}
+
+const upload = document.getElementById("bgUpload");
+if(upload){
+  upload.addEventListener("change", function(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => setBackground(ev.target.result);
+    reader.readAsDataURL(file);
+  });
+}
+
+const savedBg = localStorage.getItem("osBackground");
+if(savedBg){
+  document.body.style.backgroundImage = `url(${savedBg})`;
+}
+
+/* ================= CLOCK SYSTEM ================= */
+
+let is24Hour = localStorage.getItem("clockFormat") === "24";
+
+function updateClock(){
+  const clockEl = document.getElementById("clock");
+  const dateEl  = document.getElementById("date");
+  if(!clockEl || !dateEl) return;
+
+  const now = new Date();
+
+  let h = now.getHours();
+  let m = now.getMinutes().toString().padStart(2,"0");
+  let s = now.getSeconds().toString().padStart(2,"0");
+  let period = "";
+
+  if(!is24Hour){
+    period = h >= 12 ? " PM" : " AM";
+    h = h % 12 || 12;
+  }
+
+  h = h.toString().padStart(2,"0");
+
+  clockEl.textContent = `${h}:${m}:${s}${period}`;
+  dateEl.textContent =
+    now.toLocaleDateString(undefined,{
+      weekday:"short",
+      month:"short",
+      day:"numeric"
+    });
+}
+
+window.toggleClockFormat = function(){
+  is24Hour = !is24Hour;
+  localStorage.setItem("clockFormat", is24Hour ? "24" : "12");
+  updateClock();
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+
+});
+</script>
+
+</body>
+</html>   
