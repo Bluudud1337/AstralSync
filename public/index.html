@@ -1,0 +1,980 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AstralSync</title>
+<link rel="icon" type="image/png" href="https://academic-mathwork.vercel.app/icon-512.png">
+<link rel="manifest" href="/manifest.json">
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6507880772375833"
+     crossorigin="anonymous"></script>
+<!--        </div>
+        <div class="game-card" onclick="openAboutBlank('')">
+    <img src="">
+           <h3></h3> --->
+
+<style>
+:root {
+    --accent-color: #320ff0;
+    --background-color: #000;
+    --text-color: #fff;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--background-color);
+    color: var(--text-color);
+    overflow-x: hidden;
+}
+
+/* WAVE BACKGROUND */
+#wave-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+}
+
+/* POPUP */
+#popup-message {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+    color: var(--accent-color);
+    font-size: 2.5em;
+    font-weight: bold;
+    text-align: center;
+    z-index: 9999;
+    pointer-events: none;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+/* HEADER */
+header {
+    padding: 20px 30px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+header button {
+    background-color: var(--accent-color);
+    border: none;
+    padding: 10px 20px;
+    color: var(--text-color);
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* SECTION */
+.section {
+    padding: 40px;
+    text-align: center;
+}
+
+/* SECTION TITLE */
+.section h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+/* SEARCH */
+.search-bar {
+    width: 600px;
+    max-width: 90%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid var(--accent-color);
+    background: var(--background-color);
+    color: var(--text-color);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* ICON */
+.icon-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.soft-icon {
+    width: 64px;
+    height: 64px;
+    background: var(--background-color);
+    border-radius: 14px;
+    box-shadow: 0 0 20px var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .2s;
+}
+
+.soft-icon:hover {
+    transform: scale(1.1);
+}
+
+/* GAME GRID */
+.games-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    justify-items: center;
+}
+
+/* GAME CARD */
+.game-card {
+    width: 100%;
+    max-width: 200px;
+    height: 250px;
+    background: var(--background-color);
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--accent-color);
+    transition: transform .2s;
+    text-align: center;
+}
+
+.game-card:hover {
+    transform: translateY(-10px);
+}
+
+.game-card img {
+    width: 100%;
+    height: 160px;
+    border-radius: 10px 10px 0 0;
+}
+
+/* FULLSCREEN GAME */
+iframe.fullscreen {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    z-index: 1000;
+}
+
+/* CLOSE BUTTON */
+#close-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--accent-color);
+    border: none;
+    color: var(--text-color);
+    font-size: 22px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: none;
+    z-index: 1001;
+    cursor: pointer;
+}
+
+/* THEME CHANGER */
+#theme-changer {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: #111;
+    border: 2px solid var(--accent-color);
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 1002;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--text-color);
+}
+
+#theme-changer input {
+    width: 100px;
+}
+</style>
+</head>
+
+<body>
+<canvas id="wave-bg"></canvas>
+<div id="popup-message">Loading Astral rq...</div>
+
+<header>
+    <button onclick="location.href='apps.html'">Apps</button>
+    <button onclick="location.href='ProxyLinks.html'">Proxy Links</button>
+    <button onclick="location.href='BlankLauncher.html'">Blank Launcher</button>
+    <input type="color" id="colorPicker" title="Change Accent Color" style="margin-left:20px;">
+    <button id="modeToggle">Toggle Dark/Light</button>
+</header>
+
+<div class="section">
+    <h2>Astral Games</h2>
+    <div>
+        <a href="https://forms.gle/zzE787SgJvLh1WYz6" target="_blank">
+            <button>Game Suggestion</button>
+        </a>
+    </div>
+    <div id="game-counter">0 Games For you to play!</div>
+    <input id="searchInput" class="search-bar" placeholder="Search For your next game..." onkeyup="filterGames()">
+
+    <div class="icon-wrapper">
+        <a href="https://discord.gg/9CucEhZfYj" target="_blank">
+            <div class="soft-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" width="40">
+            </div>
+        </a>
+    </div>
+</div>
+
+<button id="close-btn">X</button>
+
+<div class="games-container">
+<div class="game-card" onclick="openFullscreen('https://krunker.io/')">
+            <img src="https://krunker-io.io/krunker-io-icon.jpg">
+            <h3>Krunker.io</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://agar.io/')">
+            <img src="https://paperiogame.io/data/image/game/agario.png">
+            <h3>Agar.io</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://slither.io/')">
+            <img src="https://media.pocketgamer.com/artwork/na-kcwl/image_jpeg_820.jpg">
+            <h3>Slither.io</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://shellshock.io/')">
+            <img src="https://slopegame.io/upload/imgs/shell-shockers-logo.jpg">
+            <h3>Shell Shockers</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://diep.io/')">
+            <img src="https://tse2.mm.bing.net/th/id/OIP.SoA7WalxosSMghPoFU8xUQAAAA">
+            <h3>Diep.io</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://htmlxm.github.io/h3/tag/')">
+            <img src="https://cdn-1.webcatalog.io/catalog/poki-tag/poki-tag-icon-filled-256.png">
+            <h3>Tag</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/sonic-2-heroes.html')">
+            <img src="https://i.ytimg.com/vi/6l0yZTA_W84/maxresdefault.jpg">
+            <h3>Sonic 2 Heroes</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/sonic-winter-adventures.html')">
+            <img src="https://tse4.mm.bing.net/th/id/OIP.JD8ZvkHEC5ZCMSU_NpjQjAHaHa">
+            <h3>Sonic❄️Adventures</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://baldisbasics.gitlab.io/file/')">
+            <img src="https://tse1.mm.bing.net/th/id/OIP.mVKO5R9DdbIGnXtwrgzHVwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Baldi's Basics</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://www.mexi.one/schoolwork/bbp.html')">
+            <img src="https://geometrydash.io/data/image/baldis-basics.jpg">
+            <h3>Baldi's Basics Plus</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://crazygames.cdn.msnfun.com/9nm5764dbppg/v8/index.html?msstart_sdk_init=eyJwYXJlbnRPcmlnaW4iOiJodHRwczovL3d3dy5tc24uY29tIiwiY2xpZW50SWQiOiIwMEREQjZENTg2MTQ2NURFMThFM0EwMTg4N0U3NjRBRCIsImxvY2FsZSI6ImVuLXhsIiwiZW50cnlQb2ludElkIjoiIiwic3dpdGNoR2FtZVBheWxvYWQiOnsic3dpdGNoZWRUbyI6IjlubTU3NjRkYnBwZyIsInZhbHVlIjp7fX19')">
+            <img src="https://tse2.mm.bing.net/th/id/OIP.6K-Exd5EybcK8Be10RZjRQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3 ">
+            <h3>Space Waves v2</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://azgames.io/game/escape-road/')">
+            <img src="https://traffic-rider.io/data/image/escaperoad.jpg">
+            <h3>Escape Road</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://sciencemathedu.github.io/slope/')">
+            <img src="https://play.frogiee.one/stuff/games/slope.jpg">
+            <h3>Slope</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://unblockedgamesfree.github.io/g-switch-3/')">
+            <img src="https://img.poki.com/cdn-cgi/image/quality=78,width=600,height=600,fit=cover,g=0.5x0.5,f=auto/7f53593c-4090-4cc5-a934-6a5e599d8eaa.png">
+            <h3>G-Switch</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://thepercentcalculator.com/playgame/speedstars/')">
+            <img src="https://oss.speedstars.im/game-img/speed-stars-1.webp">
+            <h3>SpeedStars</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://1v1lol-unblocked-free.github.io/')">
+            <img src="https://1v1lolunblocked.org/files/images/1v1lol-350x350.jpg">
+            <h3>1v1.lol</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://gamea.azgame.io/hyper-tunnel/')">
+            <img src="https://ozgames.io/cache/data/image/game/Hyper-Tunnel-m160x96.JPG">
+            <h3>Hyper Tunnel</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://c930n.github.io/seraph/games/subwaysurfers/index.html')">
+            <img src="https://play-lh.googleusercontent.com/q3fXz4jcMPIjLh2bICiRFRHHZTL3iSrA6jqynI6JNcCGnN7uA7l1-QepJjd63bm3k0Y">
+            <h3>Subway Surfers</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://c930n.github.io/seraph/games/sonicthehedgehog3/index.html')">
+            <img src="https://cdn2.steamgriddb.com/file/sgdb-cdn/icon_thumb/9b38965364330406f2af50c5bac6b5cf.png">
+            <h3>Sonic 3</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://c930n.github.io/seraph/games/sonicrush/index.html')">
+            <img src="https://tse3.mm.bing.net/th/id/OIP.7bzWQQqYtOXGFyuxhFHgiwHaEK?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Sonic Rush</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=sonic-maxidrive.bin')">
+            <img src="https://kbhgames.com/wp-content/uploads/2023/12/Sonic-Maxidrive.jpg">
+            <h3>Sonic Maxidrive</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=sonic-scorched-quest.gen')">
+            <img src="https://i.ytimg.com/vi/ah9gyZhkU_8/maxresdefault.jpg">
+            <h3>Sonic Scorched Quest</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=sonic-the-hackable2021.bin')">
+            <img src="https://www.y9freegames.com/wp-content/uploads/thumbs/custom/S/Sonic-the-Hackable.jpg">
+            <h3>Sonic The Hackable</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=Sonic%20The%20Hedgehog%202.gen')">
+            <img src="https://th.bing.com/th/id/R.7d0aa2470f4f090efd76d71f590b1f95?rik=zSXD2%2ffCn0Bzyg&pid=ImgRaw&r=0">
+            <h3>Sonic 2</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://motox3munblocked.github.io/')">
+            <img src="https://rideable.org/wp-content/uploads/2023/11/moto-x3m-unblocked.jpg">
+            <h3>Moto X3M</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://html5.gamedistribution.com/rvvASMiM/e6584e0a899c4bd185813623eb65d34e/index.html?gd_zone_config=eyJwYXJlbnRVUkwiOiJodHRwczovL3d3dy5zaWx2ZXJnYW1lcy5jb20vIiwicGFyZW50RG9tYWluIjoic2lsdmVyZ2FtZXMuY29tIiwidG9wRG9tYWluIjoic2lsdmVyZ2FtZXMuY29tIiwiaGFzSW1wcmVzc2lvbiI6dHJ1ZSwibG9hZGVyRW5hYmxlZCI6dHJ1ZSwiaG9zdCI6Imh0bWw1LmdhbWVkaXN0cmlidXRpb24uY29tIiwidmVyc2lvbiI6IjEuNS4xOCJ9?kiz10')">
+            <img src="https://tse2.mm.bing.net/th/id/OIP.tuoPaleCXC9EXVEGYLtfDgHaFj?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Vector Rush</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://www.leveldevilfull.com/play/level-devil/')">
+            <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3242750/a78a03f1047a590e6b9b0360ec361924d7f98959/capsule_616x353.jpg?t=1743000677">
+            <h3>Level devil</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://theregoestokyo0.github.io/srb2web/')">
+            <img src="https://1.bp.blogspot.com/-rufQX4uCgas/XwZNbaYMS2I/AAAAAAAAEmI/Jgi1KraZn4gg0Ln67rPJBRvVCeb7y2kngCLcBGAsYHQ/s1600/Sonic%2BRobo%2BBlast%2B2.jpg">
+            <h3>Sonic robo blast</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/sonic-boom-on-segamd.html')">
+            <img src="https://i.ytimg.com/vi/EsDIp2S9nLc/maxresdefault.jpg">
+            <h3>Sonic Boom Tas</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/metal-sonic-hyperdrive.html')">
+            <img src="https://i.ytimg.com/vi/G0llD0Zz9ZA/maxresdefault.jpg">
+            <h3>Metal Sonic Hyperdrive</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/dark-sound-the-hedgehog.html')">
+            <img src="https://www.allsonicgames.net/images/dark-sound-the-hedgehog.jpg">
+            <h3>Sonic Dark Sound</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/metal-sonic-rebooted.html')">
+            <img src="https://i.ytimg.com/vi/k19ujv5L-UQ/maxresdefault.jpg">
+            <h3>Metal sonic rebooted</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/sonic-zeta-overdrive.html')">
+            <img src="https://i.ytimg.com/vi/mPduuNj4SU8/maxresdefault.jpg">
+            <h3>Sonic Zeta overdrive</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://ubg67.gitlab.io/basket-random/')">
+            <img src="https://unblockedrush.com/wp-content/uploads/2025/09/basket-random.webp">
+            <h3>BasketBall Random</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://ubg67.gitlab.io/soccer-random/')">
+            <img src="https://ubg67.gitlab.io/assets/upload/ubg67org/soccer-random.png">
+            <h3>Soccer Random</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://ubg67.gitlab.io/boxing-random/')">
+            <img src="https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/21f6d42f-18ce-450e-9626-0a283cdd45c3/3487339502/boxing-random-screenshot.png">
+            <h3>Boxing Random</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://rycellgames.github.io/raw/games/volleyrandom/index.html')">
+            <img src="https://tse4.mm.bing.net/th/id/OIP.MA3NsAVZ-mCVcOvwVsv9aQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Volley Random</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://pacman.gamestores.fun/')">
+            <img src="https://brutalgamer.com/wp-content/uploads/2015/05/PAC-MAN_Icon.jpg">
+            <h3>Pac-Man</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://galxy.autos/assets/g/82.html')">
+            <img src="https://www5.minijuegosgratis.com/v3/games/thumbnails/249541_7_sq.jpg">
+            <h3>3D geometry dash</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://unblockedgamesfree.github.io/basketball-stars/')">
+            <img src="https://r2.fizzerz.com/game-source/basketball-stars/icon.webp">
+            <h3>Basketball Stars</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://map-l.github.io/play/people-playground/')">
+            <img src="https://images.gog-statics.com/5ffaf8774afa96332c101594d9046271d002b90bc1e2ba1fd1ed3d4da2f8d8df.jpg">
+            <h3>People Playground</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://survival-race.io/game/survival-race/')">
+            <img src="https://unblockedrush.com/wp-content/uploads/2025/09/survival-race.webp">
+            <h3>Survival Race</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://snowriderx.github.io/snowrider3d/index.html')">
+            <img src="https://snow-rider3d.io/data/image/game/snow-rider-3d-unblocked/snow-rider-3d-unblocked.jpg">
+            <h3>Snow Rider 3D</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://gameinclassroom.github.io/bitlife/')">
+            <img src="https://www.gamenora.com/upload/games/thumbnails/BitLife%20Real%20Life%20Simulator.webp">
+            <h3>BitLife</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://retro-bowl-unblocked.com/game')">
+            <img src="https://r2.fizzerz.com/game-source/retro-bowl/icon.webp">
+            <h3>Retro Bowl</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://www.kodub.com/apps/polytrack')">
+            <img src="https://poki.us.org/wp-content/uploads/2025/07/Poly-Track.jpg">
+            <h3>Poly Track</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://198.ip.nowgg.lol/apps/a/19900/b.html')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Roblox_%282025%29_%28App_Icon%29.svg/1200px-Roblox_%282025%29_%28App_Icon%29.svg.png">
+            <h3>Roblox</h3>
+        </div>
+        <div class="game-card" onclick="openAboutBlank('https://eaglercraft-minecraft.com/eaglercraft-unblocked.embed')">
+    <img src="https://assets2.ignimgs.com/2014/06/18/minecraft-buttonjpg-b689ca.jpg">
+           <h3>Minecraft (FIXED❗)</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://jasongamesdev.github.io/tap-road/')">
+            <img src="https://snow-rider3d.io/data/image/game/tap-road.jpg">
+            <h3>Tap Road</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://ubg76.gitlab.io/geometry-dash-lite/')">
+            <img src="https://tse1.mm.bing.net/th/id/OIP.Xn_URdu2VFU43Hl9grWhugAAAA?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Geometry dash lite</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://ubgwtf.gitlab.io/geometry-dash-remastered/')">
+            <img src="https://geometrydashbreeze.com/upload/cache/upload/imgs/geometry-dash-remastered-m240x240.jpg">
+            <h3>Geometry dash remastered</h3>
+         </div>
+        <div class="game-card" onclick="openFullscreen('https://class6x.gitlab.io/tanuki-sunset/')">
+            <img src="https://boygames.io/wp-content/uploads/2025/09/Tanuki-sunset-UNBLOCKED.png ">
+            <h3>Tanuki Sunset</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://class6x.gitlab.io/tag-2/')">
+            <img src="https://r2.fizzerz.com/game-source/tag-2/icon.webp">
+            <h3>Tag 2</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/sonic-classic-heroes.html')">
+            <img src="https://www.jogosonlinewx.com.br/wp-content/uploads/2024/07/hq720-1.webp">
+            <h3>Sonic classic Heros</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://unblocked-games-67.org/iframes/unicycle-legend-main/')">
+            <img src="https://img.poki.com/cdn-cgi/image/quality=78,width=600,height=600,fit=cover,f=auto/66114ac7c852491a269bfdd8ee1430aa.png">
+            <h3>Unicycle Legend</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://deadshot.io')">
+            <img src="https://static.wixstatic.com/media/a66f14_326c2e5c3a3b4a19be93963e7e2a443e~mv2.webp">
+            <h3>DeadShot</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://class6x.gitlab.io/tomb-of-the-mask/')">
+            <img src="https://api.web.gamepix.com/assets/img/600/340/banner/tomb-of-the-mask.png">
+            <h3>Tomb of the Mask</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://play.unity.com/api/v1/games/game/1797942a-d436-4284-a084-e6f9f88fd7b7/build/latest/frame')">
+            <img src="https://play-static.unity.com/20230317/p/images/b4053631-f273-41af-87f2-5655c8c4fd0d_Banner.png">
+            <h3>Station Saturn</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://unblocked-games-67.org/iframes/tunnel-rush-main/')">
+            <img src="https://unblocked-game66.com/wp-content/uploads/2024/03/tunnel-rush.png">
+            <h3>Tunnel Rush</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://unblocked-games-67.org/iframes/highway-rider-extreme-main/')">
+            <img src="https://new66ez.github.io/img/highwayriderextreme/highway-rider-extreme.png">
+            <h3>Highway Rider</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/pana-der-hejhog.html')">
+            <img src="https://www.y9freegames.com/wp-content/uploads/thumbs/custom/P/Pana-Der-Hejhog.jpg">
+            <h3>Pana der hejhog sonic</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://unblocked-games-67.org/iframes/tiny-fishing-main/')">
+            <img src="https://play-lh.googleusercontent.com/BC3ai-Gm7WDOHoRyDTFMYgRtxopZbA9s9DDo3kc4wQJteH7Zzh_sWPDlrfEjsX6vbQ">
+            <h3>Tiny fishing</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://html5.gamedistribution.com/rvvASMiM/02ff01e6e9f7451ba28d889a2a55eec9/index.html?gd_sdk_referrer_url=https%3A%2F%2Fen.gameslol.net%2Fgolf-orbit-1807.html&gd_zone_config=eyJwYXJlbnRVUkwiOiJodHRwczovL2VuLmdhbWVzbG9sLm5ldC9nb2xmLW9yYml0LTE4MDcuaHRtbCIsInBhcmVudERvbWFpbiI6ImVuLmdhbWVzbG9sLm5ldCIsInRvcERvbWFpbiI6ImVuLmdhbWVzbG9sLm5ldCIsImhhc0ltcHJlc3Npb24iOnRydWUsImxvYWRlckVuYWJsZWQiOnRydWUsImhvc3QiOiJodG1sNS5nYW1lZGlzdHJpYnV0aW9uLmNvbSIsInZlcnNpb24iOiIxLjUuMTcifQ%253D%253D')">
+            <img src="https://i0.wp.com/is3-ssl.mzstatic.com/image/thumb/Purple116/v4/4d/d3/72/4dd3721a-e48e-1ab7-150b-3ea54610f501/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/512x512bb.jpg?w=1200&ssl=1">
+            <h3>Golf Orbit</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://unblocked-games-67.org/iframes/slope-tunnel-main/')">
+            <img src="https://tunnelrush3d.com/cache/data/image/game/slope-tunnel1-m300x300.jpg">
+            <h3>Slope Tunnel</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://unblocked-games-67.org/iframes/stick-fighter-main/')">
+            <img src="https://th.bing.com/th/id/OIP.K5trUixMfBrO_9SAeNhWugHaHa?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Stick Fighter</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://infinitecraftnew.com/infinite-craft/')">
+            <img src="https://tse1.mm.bing.net/th/id/OIP.KoctmhK3esztcugH73hmnQHaEK?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Infinite Craft</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://frivez.com/games/handulum-plus/index.html')">
+            <img src="https://gogamego.io/wp-content/uploads/2025/10/Handulum.webp">
+            <h3>Handulum</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://jasongamesdev.github.io/pizza-tower/')">
+            <img src="https://img.gg.deals/91/bc/8d13bc0d02ba4006283cfc6206fd23e267b4_912cr485.jpg">
+            <h3>Pizza Tower</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://jasongamesdev.github.io/cluster-rush/')">
+            <img src="https://doodle-jump.co/data/image/game/cluster-rush.png">
+            <h3>Cluster Rush</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://jasongamesdev.github.io/doodle-baseball/')">
+            <img src="https://google-doodlebaseball.github.io/data/image/game/googlebaseball.png">
+            <h3>Google baseball</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://jasongamesdev.github.io/they-are-coming/')">
+            <img src="https://classroom6xhub.com/wp-content/uploads/2025/05/they-are-coming-free.jpg">
+            <h3>They are coming</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://class6x.gitlab.io/lands-of-blight/')">
+            <img src="https://disasterarena.github.io/images/lands-of-blight.png">
+            <h3>lands of blight</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://class6x.gitlab.io/ragdoll-hit/')">
+            <img src="https://class6x.gitlab.io/assets/upload/classroom6x/jpg/ragdoll-hit.jpg">
+            <h3>Ragdoll Hit</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://www.play-games.com/iframe/28919.html')">
+            <img src="https://tse3.mm.bing.net/th/id/OIP.nEHHzXyQDMSLuTBjEtCUdQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Sonic CD</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=Sonic_Chaos_Quest_2.gen')">
+            <img src="https://i.ytimg.com/vi/Hd1PQIoAlM4/hqdefault.jpg">
+            <h3>Sonic Chaos quest 2</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://jasongamesdev.github.io/cookie-clicker/')">
+            <img src="https://cdn2.steamgriddb.com/icon/806c0bf65a5cc8e89564ac7391bb3f76/32/256x256.png">
+            <h3>cookie Clicker</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://play.unity.com/api/v1/games/game/1797942a-d436-4284-a084-e6f9f88fd7b7/build/latest/frame')">
+            <img src="https://w8.snokido.com/img/large/station-saturn.jpg">
+            <h3>Station saturn</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://pixel-physics.seanmorr.is/')">
+            <img src="https://tse4.mm.bing.net/th/id/OIP.9bznPbDyCBRlONCJTz__NwHaEK?cb=defcache2defcache=1&rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Sonic 3000</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://facade.myaddr.dev/!!/https://cdn.jsdelivr.net/gh/gn-math/html@main/437.html')">
+            <img src="https://assets-prd.ignimgs.com/2025/09/08/bouncemasters-1757365979501.jpg?crop=1%3A1%2Csmart&format=jpg&auto=webp&quality=80">
+            <h3>BounceMasters</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://sudoku-online.github.io/a7/doodle-champion-island/')">
+            <img src="https://www.unblockedgame.io/wp-content/uploads/2023/06/gci.jpg">
+            <h3>Google champion island</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://fnaf1.io/fnaf-1.embed')">
+            <img src="https://fnaf1.io/cache/data/image/game/fnaf-1-f185x115.jpg">
+            <h3>Fnaf</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://run3.io/popgame/fnaf/fnaf2.html')">
+            <img src="https://th.bing.com/th/id/R.36d219819fa9df37a0e415e9873ebea4?rik=GRxp7sWHDLYEgA&pid=ImgRaw&r=0">
+            <h3>Fnaf 2</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://run3.io/popgame/fnaf/fnaf3.html')">
+            <img src="https://th.bing.com/th/id/R.a70c4d0e845b2de77dc85a45cea0a4ab?rik=XQ%2f%2fZRS06SnuzA&pid=ImgRaw&r=0">
+            <h3>Fnaf 3</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://run3.io/popgame/fnaf/fnaf4.html')">
+            <img src="https://tse3.mm.bing.net/th/id/OIP.WwpqmzOebGsUs6AXt1P9kQHaHd?cb=defcache2defcache=1&rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Fnaf 4</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://facade.myaddr.dev/!!/https://cdn.jsdelivr.net/gh/gn-math/html@main/624.html')">
+            <img src="https://tse4.mm.bing.net/th/id/OIP.XoXLWqfQ3huF31UGCRxXpgHaEK?cb=defcache2defcache=1&rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Happy wheels</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://facade.myaddr.dev/!!/https://cdn.jsdelivr.net/gh/gn-math/html@main/277.html')">
+            <img src="https://facade.myaddr.dev/!!/https://cdn.jsdelivr.net/gh/genizy/assets@main/evil-glitch/icon.jpeg">
+            <h3>Evil Glitch</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://23azostore.github.io/s7/death-run-3d/')">
+            <img src="https://unblockedrush.com/wp-content/uploads/2025/08/death-run-3d-cleaned.webp">
+            <h3>Death Run 3d</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/sonic-2-retro-remix.html')">
+            <img src="https://images.launchbox-app.com/f086ead5-b1d4-45bb-8830-fc8bf8a4cdc6.jpg">
+            <h3>Sonic 2 retro mix</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=sonic-erazor7.bin')">
+            <img src="https://i.ytimg.com/vi/d8RCeawts5A/maxresdefault.jpg">
+            <h3>Sonic EraZor</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://fnf.run3.io/tricky/1/')">
+            <img src="https://tse1.mm.bing.net/th/id/OIP.d2iEQ2jo3-RYTg9hRnBX_gHaFh?cb=defcache2defcache=1&rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>FnF Tricky</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://fnf.kdata1.com/kapi-arcade-showdown/2/')">
+            <img src="https://i.pinimg.com/originals/3a/b4/6b/3ab46b3cb789406d2d5fe4241fcd7f7e.gif">
+            <h3>FnF kapi</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://math.demon.in.net/game/killstreak.html')">
+            <img src="https://trampoline.turbowarp.org/thumbnails/915122508">
+            <h3>Killstreak</h3>
+        </div>
+        <div class="game-card" onclick="openFullscreen('https://g2.igroutka.ru/lib/crazy/games/stickman-clash/')">
+            <img src="https://th.bing.com/th/id/R.5b7c93faa5129b6fb26eead553d4e23e?rik=19Y3PgOvVMJaLg&pid=ImgRaw&r=0">
+            <h3>Stickman Duelist</h3>
+      </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=sonic-dragon.gen')">
+            <img src="https://i.ytimg.com/vi/Dp7I6OUrTfA/maxresdefault.jpg">
+            <h3>Sonic dragon edition</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://fnf.run3.io/midfight/2/')">
+            <img src="https://i1.sndcdn.com/artworks-UfzAwNw2wehZw0g0-zx7tQQ-t500x500.png">
+            <h3>FnF Mid Fight Masses</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://fnf.kdata1.com/2024/fnf/5000/')">
+            <img src="https://tse4.mm.bing.net/th/id/OIP.NKqfrjuDg1GNk3IZvY_biAAAAA?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>FnF</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://facade.myaddr.dev/!!/https://cdn.jsdelivr.net/gh/gn-math/html@main/215.html')">
+            <img src="https://image.api.playstation.com/vulcan/ap/rnd/202505/0123/d1f5b1636c6c3ecf8f75eba464dfbc74b7598e82a9ce8a6e.png">
+            <h3>Bendy & the Ink Machine</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://nf00008.ourcrazysites.com/gg/temple-run/')">
+            <img src="https://www.coolmathgameskids.com/wp-content/uploads/2021/01/temple-run-2.jpg">
+            <h3>Temple Run</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://facade.myaddr.dev/!!/https://cdn.jsdelivr.net/gh/gn-math/html@main/90.htmlv')">
+            <img src="https://nargames.com/storage/uploads/thumbs/granny.webp">
+            <h3>Granny</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://mod.fnfhub.net/27472/')">
+            <img src="https://i.ytimg.com/vi/d5Gp0EsktNI/maxresdefault.jpg">
+            <h3>FnF Shucks</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://mod.fnfhub.net/24905/')">
+            <img src="https://images.gamebanana.com/img/ss/mods/602ad2dd9c20e.jpg">
+            <h3>FnF whitty</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://mod.fnfhub.net/27062/')">
+            <img src="https://www.fnfgo.com/wp-content/uploads/2024/05/fnf-mario-madness.jpg">
+            <h3>FnF Mario madness v2</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://mod.fnfhub.net/24869/')">
+            <img src="https://tse2.mm.bing.net/th/id/OIP.y-poCep2EbvdZcbHxqXgrAHaEK?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>FnF Twinsomnia</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://mod.fnfhub.net/28690/')">
+            <img src="https://images.gamebanana.com/img/ss/mods/689a98d2a31b8.jpg">
+            <h3>FnF QT</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=Sonic%20The%20Hedgehog%20AGX%20First%20Public%20Release.bin')">
+            <img src="https://i.ytimg.com/vi/8PM15gqzUZA/maxresdefault.jpg">
+            <h3>Sonic Agx</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=Sonic_The_Hedgehog_Rocket.gen')">
+            <img src="https://th.bing.com/th/id/OIP.5NSlOO3DE--oiRPL-mpY_wEsCo?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Sonic Rocket</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://nf00008.ourcrazysites.com/gg/gladihoppers/')">
+            <img src="https://tse2.mm.bing.net/th/id/OIP.c8xDIMrBEopz4IuIv9ZiFwAAAA?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Gladihopper</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://nf00008.ourcrazysites.com/gg/ovo/')">
+            <img src="https://tse2.mm.bing.net/th/id/OIP.qGFQfUfEAEd8pRub2td-EgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>OvO</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://www.archive.play-games.com/games/archive/3/StickWithIt/index.html')">
+            <img src="https://tse2.mm.bing.net/th/id/OIP.xr6HeXS5QL6X6OuRCrrcVgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Stick with it</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://map-l.github.io/play/ultrakill/')">
+            <img src="https://gamerjournalist.com/wp-content/uploads/2023/01/ultrakill-feature-1.jpg?resize=1024">
+            <h3>UltraKill</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://map-l.github.io/play/stickmanhook/')">
+            <img src="https://tse1.mm.bing.net/th/id/OIP.UEKMsdk-eU43lfHA0j9naQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Stickman Hook</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://map-l.github.io/play/xx142-b2exe/')">
+            <img src="https://tse4.mm.bing.net/th/id/OIP.upO8VXoUUqjlBZKFVsmNbQHaHd?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>XX142.exe</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/sonic-2-battle-race.html')">
+            <img src="https://www.y9freegames.com/wp-content/uploads/2025/12/Sonic-2-Battle-Race-150x150.jpg">
+            <h3>Sonic Battle Race</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/ordinary-sonic.html')">
+            <img src="https://tse4.mm.bing.net/th/id/OIP.Bfa7eE_LRNm33VU5T-sk4QHaEK?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>An Ordinary Sonic Rom Hack</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=sonic-renovation.bin')">
+            <img src="https://tse4.mm.bing.net/th/id/OIP.YVqMm5vPGyQSneAOVbhe_QHaGX?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Sonic Renovation</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=super-sonic-hyper-sonic-in-sonic-1.zip')">
+            <img src="https://th.bing.com/th/id/R.d1cc83b29adf51843557c6f13e956c1d?rik=ml8Y9p%2bq%2fQRksg&pid=ImgRaw&r=0">
+            <h3>super sonic & hyper sonic in sonic 1</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=sonic-acceleration.bin')">
+            <img src="https://i.ytimg.com/vi/vcpB1OZr1GY/maxresdefault.jpg">
+            <h3>Sonic Acceleration</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=sonic-the-hedgehog-megadriven-demo3.bin')">
+            <img src="https://tse1.mm.bing.net/th/id/OIP.0YWhHnE8apAv3gtGEI2z4AHaEK?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Sonic Megadriven</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=HellfireSaga_Final_30_01_23.gen')">
+            <img src="https://i.ytimg.com/vi/0_MqWt8PH5c/maxresdefault.jpg">
+            <h3>Sonic HellFire Saga</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://data.unblockedgamers.com/file/h5games/onlinegames/games/2021/short-life-2/index.html')">
+            <img src="https://tse3.mm.bing.net/th/id/OIP._gXE_o_hWVlYaETmqQiwwQHaFj?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Short life 2</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://www.rocketgames.io/gameframe/bleach-vs-naruto')">
+            <img src="https://th.bing.com/th/id/OIP.K1hJZkNxCT3HGg3lOYpuaAHaEo?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Bleach vs Naruto</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://www.rocketgames.io/gameframe/defly-io')">
+            <img src="https://cdn-1.webcatalog.io/catalog/defly-io/defly-io-icon-filled-256.png?v=1675590551595">
+            <h3>Defly.io</h3>
+    </div>
+        <div class="game-card" onclick="openFullscreen('https://files.rocketgames.io/uploads/games/p/pixel-speedrun/files/85bc97/index.html')">
+            <img src="https://tse2.mm.bing.net/th/id/OIP.gP6ysHWWmM74-Y4FwqqfwQHaEP?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Pixel Speedrun</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://googlesnakemods.com/v/current/')">
+            <img src="https://googlesnakemods.com/img/snake_logo.png">
+            <h3>Google Snake</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://solarsmashonline.com/play/solar-smash/')">
+            <img src="https://gogamego.io/wp-content/uploads/2025/08/solar-smash.webp">
+            <h3>Solar Smash</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://en.gameslol.net/data/fairyvop11/index.php')">
+            <img src="https://tse2.mm.bing.net/th/id/OIP.XU9KdLTmtB2GnKkHVg4d0wHaGR?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Fairytail vs one peice</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://retrogames.games/embed/pokemon-unbound-v2-1-1-1')">
+            <img src="https://tse2.mm.bing.net/th/id/OIP.8MB91Im9wS3sIvymCFZhawHaEK?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Pokemon Unbound</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=gba&f=pokemon-emerald.gba')">
+            <img src="https://archives.bulbagarden.net/media/upload/thumb/6/65/Emerald_EN_boxart.jpg/1200px-Emerald_EN_boxart.jpg">
+            <h3>Pokemon Emerald</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=gba&f=pokemonredfire.gba')">
+            <img src="https://assets.altarofgaming.com/wp-content/uploads/2021/12/pokemon-fire-red-version-game-cover-altar-of-gaming.jpg">
+            <h3>Pokemon FireRed</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://www.dbzgames.org/emu/dragon-ball-z-supersonic-warriors_g/')">
+            <img src="https://tse3.mm.bing.net/th/id/OIP.jEPmg0KGu06Nbke7thM6HAHaEK?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Dragon Ball Z Supersonic warriors</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=Epilogue.md')">
+            <img src="https://kbhgames.com/wp-content/uploads/2018/12/sonic-3-knuckles-epilogue-1.webp">
+            <h3>Sonic 3 & knuckles Epilouge</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://files.twoplayergames.org/files/games/o1/Stick_Duel_The_War/index.html')">
+            <img src="https://tse4.mm.bing.net/th/id/OIP.OCIBdMDaeUCn5ahQzdYQzgHaFj?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Stick duel</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://class6x.gitlab.io/lands-of-blight/')">
+            <img src="https://minigamesville.com/wp-content/smush-webp/2025/08/Lands_of_Blight.png.webp">
+            <h3>Lands of blight</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://iframe.unblocked-76-games.org/red-ball-4-main/')">
+            <img src="https://th.bing.com/th/id/R.a43b23686213c36ed4e704e71dc7cb33?rik=64OLEqYIQ%2fELFA&pid=ImgRaw&r=0">
+            <h3>Red Ball 4</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://iframe.unblocked-76-games.org/basket-bros-main/')">
+            <img src="https://tse2.mm.bing.net/th/id/OIP.hKZHbFV9hitcpsUbWoNJAwHaFj?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Basket Bros</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://iframe.unblocked-76-games.org/among-us-main/')">
+            <img src="https://tse4.mm.bing.net/th/id/OIP.Id5vBbqOKzKUZmhlbLkYpgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3">
+            <h3>Among Us Sandbox</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://db.quackprep.org/html/thebindingofisaac/')">
+            <img src="https://external-preview.redd.it/b9jmDJXxvCIeGxGZ-c7CyZlnU0wYzEo5kfZkpVopP6g.jpg?auto=webp&s=91dc39a367a877caa7697d305a89d1f0ecd263af">
+            <h3>The binding of issac</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://classroom8.github.io/crossy-road/')">
+            <img src="https://cdn.jim-nielsen.com/ios/1024/crossy-road-2022-05-13.png">
+            <h3>Crossy Road</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://db.quackprep.org/html/uno/')">
+            <img src="https://th.bing.com/th/id/R.52f881f709924f58c801dc9dde7da9c0?rik=3lyQUpIZ%2bOS3Eg&pid=ImgRaw&r=0">
+            <h3>Uno</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=SHA_FINAL_BUILD.bin')">
+            <img src="https://www.y9freegames.com/wp-content/uploads/thumbs/custom/S/Sonic-Hex-Adventure.jpg">
+            <h3>Sonic Hex Adventure</h3>
+     </div>
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=brutal-sonic.bin')">
+            <img src="https://i.ytimg.com/vi/riAe9T4Oxl8/hqdefault.jpg?sqp=-oaymwEmCOADEOgC8quKqQMa8AEB-AHOBYAC7AKKAgwIABABGBMgFSh_MA8=&rs=AOn4CLAObii4Xmi2QhaqDZTYRns64SlHZg">
+            <h3>Brutal Sonic</h3>
+     </div>
+         <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=gba&f=sonic-advance-3.gba')">
+    <img src="https://cdn.mobygames.com/covers/5596618-sonic-advance-3-game-boy-advance-front-cover.jpg">
+    <h3>Sonic Advance 3</h3>
+      </div>
+
+         <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=gba&f=sonic-advance-2.gba')">
+     <img src="https://e.snmc.io/lk/lv/x/f10daace6aa56d5e48288417068f28b2/5277738">
+    <h3>Sonic Advance 2</h3>
+     </div>
+
+        <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=gba&f=sonic-advance.gba')">
+    <img src="https://cdn.mobygames.com/covers/4089338-sonic-advance-game-boy-advance-front-cover.jpg">
+    <h3>Sonic Advance</h3>
+     </div>
+
+<div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=sonic-3-knuckles-battle-race.gen')">
+    <img src="https://i.ytimg.com/vi/U2aa8pXuu9Q/hqdefault.jpg">
+    <h3>Sonic 3 & Knuckles Battle Race</h3>
+</div>
+
+<div class="game-card" onclick="openFullscreen('https://iframe.unblocked-76-games.org/fireboy-and-watergirl-1-forest-temple-main/')">
+    <img src="https://play-lh.googleusercontent.com/6N_ON50BZiEAe-ll2lM92NrVrgp5I5Ha6VI0a4Usw7uPmgEjL6tgJR6jWYUkkYgx2LM">
+    <h3>FireBoy and WaterGirl</h3>
+</div>
+
+<div class="game-card" onclick="openFullscreen('https://iframe.unblocked-76-games.org/battle-wheels-main/')">
+    <img src="https://tse4.mm.bing.net/th/id/OIP.tYbEsfqZkxloTipNAF34eAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3">
+    <h3>Battle Wheels</h3>
+</div>
+       <div class="game-card" onclick="openFullscreen('https://cdn.primarygames.com/HTML5/PursuitRace/')">
+    <img src="https://www.gameyay.com/thumbs/20210816-054746541NGYS.jpg">
+    <h3>Pursuit Race</h3>
+</div>
+       <div class="game-card" onclick="openFullscreen('https://www.retrogames.cc/embed/46697-shc2024-sonic-smd.html')">
+    <img src="https://tse2.mm.bing.net/th/id/OIP.MgwojY4Xq7cuT8grd271dAAAAA?rs=1&pid=ImgDetMain&o=7&rm=3">
+    <h3>Sonic.SMD</h3>
+</div>
+       <div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=Sonic-Ashuro-By-Ashuro-400.zip')">
+    <img src="https://img.kbhgames.com/2017/03/SONIC-THE-HEDGEHOG-ASHURO.jpg">
+    <h3>Sonic & Ashuro</h3>
+</div>
+       <div class="game-card" onclick="openFullscreen('https://freedomgamingzone.github.io/five-nights-at-epsteins/')">
+    <img src="https://tse3.mm.bing.net/th/id/OIF.XMzyUyehfWPYHqhUnu9SAw?rs=1&pid=ImgDetMain&o=7&rm=3">
+    <h3>FNAF EPSTEIN</h3>
+</div>
+       <div class="game-card" onclick="openFullscreen('https://app-371277.games.s3.yandex.net/371277/ab6m47paqoskshjkrm7xc8q6oq5u3kjp_brotli/index.html?is-united-page=1&skip-guard=1&header=no&clid=2818308&flags=%7B%22adv_sticky_banner_disabled%22%3Atrue%7D&sdk=%2Fsdk%2F_%2Fv2.3be05f4fbb5f415214c9.js#origin=https%3A%2F%2Fyandex.com&app-id=371277&device-type=desktop')">
+    <img src="https://play-lh.googleusercontent.com/fBLGre4csvQQZ6QAOlj7FU3psT9FNXK9JERdjey1sYQePwzvVBwM0v9CMQNy_LUdaCrF">
+    <h3>BoneTale</h3>
+            
+
+<script>
+// THEME TOGGLE
+const modeToggle = document.getElementById('modeToggle');
+modeToggle.addEventListener('click', () => {
+    if (document.body.style.background === 'white') {
+        document.body.style.background = '';
+        document.body.style.color = '';
+    } else {
+        document.body.style.background = 'white';
+        document.body.style.color = 'black';
+    }
+});
+
+// ACCENT COLOR PICKER
+const colorPicker = document.getElementById('colorPicker');
+colorPicker.addEventListener('input', e => {
+    document.documentElement.style.setProperty('--accent-color', e.target.value);
+});
+
+// POPUP FADE
+window.addEventListener('load', () => {
+    const popup = document.getElementById('popup-message');
+    popup.style.opacity = '1';
+    setTimeout(() => popup.style.opacity = '0', 2500);
+});
+
+// SEARCH FILTER
+function filterGames() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const games = document.querySelectorAll('.game-card');
+    let count = 0;
+    games.forEach(game => {
+        const title = game.querySelector('h3').innerText.toLowerCase();
+        if (title.includes(input)) {
+            game.style.display = '';
+            count++;
+        } else {
+            game.style.display = 'none';
+        }
+    });
+    document.getElementById('game-counter').innerText = `${count} Games`;
+}
+
+// FULLSCREEN GAME OPEN
+function openFullscreen(url) {
+    const iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.className = 'fullscreen';
+    document.body.appendChild(iframe);
+    document.getElementById('close-btn').style.display = 'block';
+}
+
+// CLOSE FULLSCREEN
+document.getElementById('close-btn').addEventListener('click', () => {
+    const iframe = document.querySelector('iframe.fullscreen');
+    if (iframe) iframe.remove();
+    document.getElementById('close-btn').style.display = 'none';
+});
+
+// WAVE BACKGROUND CANVAS
+const canvas = document.getElementById('wave-bg');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let waves = [];
+for (let i = 0; i < 5; i++) {
+    waves.push({y: canvas.height / 2, amplitude: 30 + i*10, speed: 0.02 + i*0.01, offset: i*100});
+}
+
+function animateWaves() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'rgba(50, 15, 240, 0.2)';
+    waves.forEach(w => {
+        ctx.beginPath();
+        for (let x = 0; x < canvas.width; x++) {
+            ctx.lineTo(x, w.y + Math.sin(x * 0.02 + w.offset) * w.amplitude);
+        }
+        ctx.lineTo(canvas.width, canvas.height);
+        ctx.lineTo(0, canvas.height);
+        ctx.closePath();
+        ctx.fill();
+        w.offset += w.speed;
+    });
+    requestAnimationFrame(animateWaves);
+}
+animateWaves();
+
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+</body>
+<script>
+function openAboutBlank(url) {
+    const win = window.open("about:blank", "_blank");
+    if (!win) return;
+
+    win.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>  </title>
+            <style>
+                html, body {
+                    margin: 0;
+                    padding: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: black;
+                }
+                iframe {
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                }
+            </style>
+        </head>
+        <body>
+            <iframe src="${url}" allowfullscreen></iframe>
+        </body>
+        </html>
+    `);
+    win.document.close();
+}
+</script>
+</html>
