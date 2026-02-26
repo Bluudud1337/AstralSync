@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AstralMovies</title>
+
+<style>
+body{
+  margin:0;
+  font-family:"Segoe UI", sans-serif;
+  background: linear-gradient(to bottom, #05070d, #0a1624, #07121f);
+  color:white;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* PARTICLE BACKGROUND (BEHIND EVERYTHING) */
+.particles{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(0,200,255,0.15) 2px, transparent 3px),
+    radial-gradient(circle at 70% 60%, rgba(0,180,255,0.1) 2px, transparent 3px),
+    radial-gradient(circle at 40% 80%, rgba(0,220,255,0.12) 2px, transparent 3px);
+  background-size:300px 300px;
+  animation: floatParticles 60s linear infinite;
+}
+
+@keyframes floatParticles{
+  from { transform: translateY(0); }
+  to { transform: translateY(-200px); }
+}
+
+/* CONTENT WRAPPER */
+.content{
+  position:relative;
+  z-index:1;
+}
+
+/* HERO */
+.hero{
+  padding:60px 40px 30px;
+}
+.hero h1{
+  margin:0;
+  font-size:38px;
+  color:#7fe9ff;
+  text-shadow:0 0 15px rgba(0,200,255,0.7);
+}
+.hero p{
+  opacity:.7;
+}
+
+/* TOP BAR */
+.top-bar{
+  display:flex;
+  justify-content:space-between;
+  padding:20px 40px;
+}
+
+.search-box input,
+.filter select{
+  padding:10px 15px;
+  border-radius:20px;
+  border:1px solid rgba(0,200,255,0.4);
+  background:#081522;
+  color:white;
+  outline:none;
+}
+
+/* MOVIE GRID */
+.movie-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:30px;
+  padding:40px;
+}
+
+/* MOVIE CARD */
+.movie-card{
+  background:#0c1b2a;
+  border-radius:15px;
+  overflow:hidden;
+  border:1px solid rgba(0,200,255,0.25);
+  transition:.3s;
+  cursor:pointer;
+}
+
+.movie-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 10px 25px rgba(0,200,255,0.4);
+  border-color:rgba(0,200,255,0.6);
+}
+
+.movie-card img{
+  width:100%;
+  height:280px;
+  object-fit:cover;
+}
+
+.movie-info{
+  padding:15px;
+}
+
+.movie-info h3{
+  margin:0;
+  font-size:16px;
+  color:#c8f9ff;
+}
+
+/* MODAL */
+.modal{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,.7);
+  z-index:5;
+}
+
+.modal-content{
+  width:450px;
+  background:#0c1b2a;
+  padding:30px;
+  border-radius:20px;
+  border:1px solid rgba(0,200,255,0.4);
+  box-shadow:0 0 30px rgba(0,200,255,0.5);
+}
+
+.modal-content h2{
+  margin-top:0;
+  color:#7fe9ff;
+}
+
+.close-btn{
+  float:right;
+  cursor:pointer;
+  font-size:18px;
+}
+
+.btn{
+  margin-top:20px;
+  padding:10px 20px;
+  border-radius:20px;
+  border:none;
+  background:#00c8ff;
+  color:#001018;
+  font-weight:bold;
+  cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="particles"></div>
+
+<div class="content">
+
+<div class="hero">
+  <h1>🌊 AstralMovies</h1>
+  <p>Stream that boring class away.</p>
+</div>
+
+<div class="top-bar">
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search movies...">
+  </div>
+  <div class="filter">
+    <select id="genreFilter">
+      <option value="all">All</option>
+      <option value="action">Action</option>
+      <option value="sci-fi">Sci-Fi</option>
+      <option value="drama">Drama</option>
+      <option value="fantasy">Fantasy</option>
+    </select>
+  </div>
+</div>
+
+<div class="movie-grid" id="movieGrid"></div>
+
+</div>
+
+<div class="modal" id="movieModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">✖</span>
+    <h2 id="modalTitle"></h2>
+    <p id="modalDesc"></p>
+    <button class="btn">Watch Now</button>
+  </div>
+</div>
+
+<script>
+
+const movies = [
+  {
+    title:"Ocean Shadows",
+    genre:"drama",
+    image:"https://via.placeholder.com/300x450",
+    description:"A story set on a glowing shoreline at night."
+  },
+  {
+    title:"Deep Blue Signal",
+    genre:"sci-fi",
+    image:"https://via.placeholder.com/300x450",
+    description:"Strange lights appear beneath the ocean surface."
+  }
+];
+
+function renderMovies(){
+  const grid = document.getElementById("movieGrid");
+  grid.innerHTML = "";
+
+  const search = document.getElementById("searchInput").value.toLowerCase();
+  const genre = document.getElementById("genreFilter").value;
+
+  movies.forEach(movie=>{
+    if(
+      movie.title.toLowerCase().includes(search) &&
+      (genre==="all" || movie.genre===genre)
+    ){
+      const card = document.createElement("div");
+      card.className="movie-card";
+      card.innerHTML = `
+        <img src="${movie.image}">
+        <div class="movie-info">
+          <h3>${movie.title}</h3>
+        </div>
+      `;
+      card.onclick = ()=>openModal(movie);
+      grid.appendChild(card);
+    }
+  });
+}
+
+function openModal(movie){
+  document.getElementById("modalTitle").innerText = movie.title;
+  document.getElementById("modalDesc").innerText = movie.description;
+  document.getElementById("movieModal").style.display="flex";
+}
+
+function closeModal(){
+  document.getElementById("movieModal").style.display="none";
+}
+
+document.getElementById("searchInput").addEventListener("input",renderMovies);
+document.getElementById("genreFilter").addEventListener("change",renderMovies);
+
+renderMovies();
+
+</script>
+
+</body>
+</html>
