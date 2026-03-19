@@ -205,8 +205,8 @@ iframe.fullscreen {
     <button onclick="location.href='apps.html'">Apps</button>
     <button onclick="location.href='ProxyLinks.html'">Proxy Links</button>
     <button onclick="location.href='BlankLauncher.html'">Blank Launcher</button>
-    <button onclick="location.href='movies.html'">MOVIES!</button>
-    <input type="color" id="colorPicker" title="Change Accent Color" style="margin-left:20px;">
+    <button onclick="location.href='movies.html'">Movies</button>
+    <button onclick="location.href='Tools.html'">Tools</button>
     <button id="modeToggle">Toggle Dark/Light</button>
 </header>
 
@@ -879,12 +879,6 @@ modeToggle.addEventListener('click', () => {
         document.body.style.background = 'white';
         document.body.style.color = 'black';
     }
-});
-
-// ACCENT COLOR PICKER
-const colorPicker = document.getElementById('colorPicker');
-colorPicker.addEventListener('input', e => {
-    document.documentElement.style.setProperty('--accent-color', e.target.value);
 });
 
 // POPUP FADE
