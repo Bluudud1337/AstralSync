@@ -190,7 +190,36 @@ iframe.fullscreen {
     gap: 10px;
     color: var(--text-color);
 }
+.astro-btn {
+  display: inline-block;
+  text-decoration: none;
+  background: linear-gradient(135deg, #1e3cff, #3b5bff);
+  color: white;
+  padding: 12px 22px;
+  font-size: 15px;
+  font-family: "Segoe UI", sans-serif;
+  border-radius: 10px;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 10px rgba(59, 91, 255, 0.4);
+}
 
+/* hover */
+.astro-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 0 18px rgba(59, 91, 255, 0.7);
+}
+
+/* click */
+.astro-btn:active {
+  transform: scale(0.96);
+}
+
+/* optional: glassy version */
+.astro-btn.glass {
+  background: rgba(30, 60, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(59, 91, 255, 0.5);
+}
 #theme-changer input {
     width: 100px;
 }
@@ -213,9 +242,9 @@ iframe.fullscreen {
 <div class="section">
     <h2>Astral Games</h2>
     <div>
-        <a href="https://forms.gle/zzE787SgJvLh1WYz6" target="_blank">
-            <button>Game Suggestion</button>
-        </a>
+    <a href="https://forms.gle/zzE787SgJvLh1WYz6" target="_blank" class="astro-btn">
+  🚀 Game Suggestion
+</a>
     </div>
     <div id="game-counter">0 Games For you to play!</div>
     <input id="searchInput" class="search-bar" placeholder="Search For your next game..." onkeyup="filterGames()">
@@ -900,7 +929,7 @@ modeToggle.addEventListener('click', () => {
         document.body.style.color = 'black';
     }
 });
-  alert("IF YOU WANT CLOUD GAMING, GO TO APPS AND SEARCH UP MADDOX!!");
+  alert("NOTICE:IF YOU WANT MORE GAMES BEING ADDED, LOOK FOR SOME OR USE THE GAME SUGGESTION BUTTON!");
 // POPUP FADE
 window.addEventListener('load', () => {
     const popup = document.getElementById('popup-message');
@@ -974,6 +1003,14 @@ window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 });
+
+
+function updateGameCounter() {
+    const games = document.querySelectorAll('.game-card');
+    document.getElementById('game-counter').innerText = `${games.length} Games For you to play!`;
+}
+
+window.addEventListener('load', updateGameCounter);
 </script>
 </body>
 <script>
