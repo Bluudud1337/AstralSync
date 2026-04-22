@@ -3,7 +3,7 @@
 <head>  
 <meta charset="UTF-8">  
 <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-<title>AstralChat v2.1</title>  
+<title>AstralChat</title>  
 <link rel="icon" type="image/png" href="https://academic-mathwork.vercel.app/icon-512.png">
 <link rel="manifest" href="/manifest.json">
 <style>  
@@ -14,7 +14,7 @@
 --deep-blue: #1606d5;  
 --text-gray: #a0a0c0;  
 --glass: rgba(255, 255, 255, 0.05);  
---glow: 0 0 15px rgba(0, 212, 255,数为 0);  
+--glow: 0 0 15px rgba(0, 212, 255, 0.6);  
 }
 
 body, html {  
@@ -327,7 +327,7 @@ border-radius: 10px;
 
 <div id="auth-overlay">  
 <div class="auth-card">  
-<h2>Join the Void</h2>  
+<h2>Join the Chatroom</h2>  
 <input type="text" id="username" placeholder="Username">  
 <input type="email" id="email" placeholder="Email Address">  
 <button onclick="handleLogin()">Enter AstralChat</button>  
@@ -345,7 +345,7 @@ border-radius: 10px;
 </div>  
 <div style="font-size: 12px; color: var(--text-gray); margin-bottom: 10px; letter-spacing: 1px;">SERVERS</div>  
 <div class="server-list">  
-<button class="server-btn active" id="btn-global" onclick="switchServer('global')">🌐 Global</button>  
+<button class="server-btn active" id="btn-global" onclick="switchServer('global')">🌐Global</button>  
 <button class="server-btn" id="btn-school" onclick="switchServer('school')">🏫 School</button>  
 </div>  
 <button onclick="logout()" style="margin-top:auto; background:none; border:none; color:red; cursor:pointer; font-size:12px;">Logout / Clear Account</button>  
@@ -359,7 +359,30 @@ border-radius: 10px;
 </div>  
 </div>  
 </div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, push, onChildAdded, off } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyDlGnuWIAZW9afM4fvmk4IH6vC-1brdzjo",
+  authDomain: "astralchat-c70f0.firebaseapp.com",
+  databaseURL: "https://astralchat-c70f0-default-rtdb.firebaseio.com",
+  projectId: "astralchat-c70f0",
+  storageBucket: "astralchat-c70f0.firebasestorage.app",
+  messagingSenderId: "165354742069",
+  appId: "1:165354742069:web:cad1d172f5c524046f6c7c"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// MAKE THESE GLOBAL
+window.db = db;
+window.ref = ref;
+window.push = push;
+window.onChildAdded = onChildAdded;
+window.off = off;
+</script>
 <script src="https://cdn.jsdelivr.net/npm/peerjs@1.4.7/dist/peerjs.min.js"></script>  
 <script>  
 // Persistent memory system  
@@ -401,7 +424,6 @@ document.getElementById('avatar').innerText = user.charAt(0).toUpperCase();
 document.getElementById('auth-overlay').style.display = 'none';  
 document.getElementById('main-app').style.display = 'grid';
 
-initNetwork();  
 switchServer('global');  
 }
 
@@ -460,54 +482,44 @@ document.getElementById('chat-input').placeholder = `Sending to ${server}...`;
 loadMessages();  
 }
 
-function sendMsg() {  
-const input = document.getElementById('chat-input');  
-const text = input.value.trim();
+function sendMsg() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
 
-if (text !== "") {  
-const now = new Date();  
-const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    if (text !== "") {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-appendMessage(myName, text, timeString, 'sent');
+        window.push(window.ref(window.db, "messages/" + currentServer), {
+            user: myName,
+            text: text,
+            time: timeString
+        });
 
-// Save to localStorage  
-const messageData = {  
-user: myName,  
-text: text,  
-time: timeString,  
-server: currentServer  
-};  
-const messages = JSON.parse(localStorage.getItem('astral_messages') || '[]');  
-messages.push(messageData);  
-localStorage.setItem('astral_messages', JSON.stringify(messages));
-
-// Send to all connected peers  
-connections.forEach(conn => {  
-conn.send({  
-user: myName,  
-text: text,  
-time: timeString,  
-server: currentServer  
-});  
-});
-
-input.value = "";  
-}  
+        input.value = "";
+    }
 }
 
-function loadMessages() {  
-const messages = JSON.parse(localStorage.getItem('astral_messages') || '[]');  
-const list = document.getElementById('message-list');  
-list.innerHTML = "";
+let currentListener = null;
 
-messages.forEach(msg => {  
-if (msg.server === currentServer) {  
-const type = msg.user === myName ? 'sent' : 'received';  
-appendMessage(msg.user, msg.text, msg.time, type);  
-}  
-});
+function loadMessages() {
+    const list = document.getElementById('message-list');
+    list.innerHTML = "";
 
-list.scrollTop = list.scrollHeight;  
+    if (currentListener) {
+        off(currentListener);
+    }
+
+    const messagesRef = window.ref(window.db, "messages/" + currentServer);
+
+    currentListener = messagesRef;
+
+    onChildAdded(messagesRef, (snapshot) => {
+        const msg = snapshot.val();
+        const type = msg.user === myName ? 'sent' : 'received';
+
+        appendMessage(msg.user, msg.text, msg.time, type);
+    });
 }
 
 function appendMessage(user, text, time, type) {  
