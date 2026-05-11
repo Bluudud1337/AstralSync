@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstralCode</title>
+    <style>
+        /* --- SPACE THEME CSS --- */
+        :root {
+            --space-bg: #050510;
+            --space-panel: #0b0b1a;
+            --neon-cyan: #00e5ff;
+            --neon-purple: #b300ff;
+            --text-main: #e0e0ff;
+            --code-green: #4af626;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--space-bg);
+            background-image: radial-gradient(circle at 15% 50%, rgba(0, 229, 255, 0.05), transparent 25%),
+                              radial-gradient(circle at 85% 30%, rgba(179, 0, 255, 0.05), transparent 25%);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Header / Navbar */
+        header {
+            background-color: var(--space-panel);
+            border-bottom: 2px solid var(--neon-purple);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 15px rgba(179, 0, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 8px var(--neon-cyan);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn {
+            background: rgba(0, 229, 255, 0.1);
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease-in-out;
+            font-family: inherit;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+
+        .btn:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .btn-purple {
+            background: rgba(179, 0, 255, 0.1);
+            color: #d884ff;
+            border-color: var(--neon-purple);
+        }
+        .btn-purple:hover {
+            background: var(--neon-purple);
+            color: #fff;
+            box-shadow: 0 0 10px var(--neon-purple);
+        }
+
+        .spaces-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .space-tab {
+            padding: 6px 12px;
+            cursor: pointer;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background: transparent;
+            color: #888;
+        }
+        .space-tab.active {
+            border-color: var(--neon-purple);
+            color: #fff;
+            background: rgba(179, 0, 255, 0.2);
+            text-shadow: 0 0 5px var(--neon-purple);
+        }
+
+        /* Workspace Area */
+        .workspace {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Sidebar (Files) */
+        .sidebar {
+            width: 220px;
+            background-color: var(--space-panel);
+            border-right: 1px solid #222;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .file-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .file-item {
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .file-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        .file-item.active {
+            background: rgba(0, 229, 255, 0.2);
+            border-left: 3px solid var(--neon-cyan);
+        }
+        
+        .delete-file {
+            color: #ff4444;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+
+        /* Editor Area */
+        .editor-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+            position: relative;
+        }
+        
+        .editor-toolbar {
+            background: #111;
+            padding: 8px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #333;
+        }
+
+        textarea {
+            flex: 1;
+            background: transparent;
+            color: var(--code-green);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            border: none;
+            padding: 15px;
+            resize: none;
+            outline: none;
+            white-space: pre;
+            overflow-wrap: normal;
+            overflow-x: auto;
+        }
+
+        /* Live Preview Area */
+        .preview-container {
+            width: 40%;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            border-left: 2px solid var(--neon-cyan);
+            transition: all 0.3s ease;
+        }
+
+        .preview-container.hidden {
+            display: none;
+        }
+
+        .preview-header {
+            background: #eee;
+            padding: 8px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #333;
+            font-weight: bold;
+            border-bottom: 1px solid #ccc;
+        }
+
+        iframe {
+            flex: 1;
+            border: none;
+            width: 100%;
+            background: #fff;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html" class="btn">Home</a>
+            ✨ AstralCode
+        </div>
+        <div class="spaces-nav" id="spaces-nav">
+            </div>
+    </header>
+
+    <div class="workspace">
+        <div class="sidebar">
+            <button class="btn" onclick="addFile()">+ New File</button>
+            <div class="file-list" id="file-list">
+                </div>
+        </div>
+
+        <div class="editor-container">
+            <div class="editor-toolbar">
+                <span id="current-file-name" style="color: #888;">No file selected</span>
+                <button class="btn btn-purple" id="toggle-preview-btn" onclick="togglePreview()">Show Preview</button>
+            </div>
+            <textarea id="code-editor" spellcheck="false" oninput="handleCodeChange()"></textarea>
+        </div>
+
+        <div class="preview-container" id="preview-container">
+            <div class="preview-header">
+                <span>Live Preview</span>
+                <div>
+                    <button class="btn" style="color:#000; border-color:#999;" onclick="openInNewTab()">Open in New Tab</button>
+                    <button class="btn" style="color:#ff4444; border-color:#ff4444;" onclick="togglePreview()">Close</button>
+                </div>
+            </div>
+            <iframe id="preview-frame"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA INITIALIZATION ---
+        const DEFAULT_HTML = `<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { background: #111; color: #fff; text-align: center; font-family: sans-serif; padding-top: 50px; }
+    h1 { color: #00e5ff; }
+  </style>
+</head>
+<body>
+  <h1>Welcome to AstralCode 🚀</h1>
+  <p>Start typing to see live updates!</p>
+</body>
+</html>`;
+
+        // Generate default 5 code spaces
+        const createDefaultSpaces = () => {
+            return Array.from({ length: 5 }, (_, i) => ({
+                id: i,
+                name: `Space ${i + 1}`,
+                files: [
+                    { name: 'index.html', content: i === 0 ? DEFAULT_HTML : `<h1>Hello from Space ${i + 1}</h1>` }
+                ]
+            }));
+        };
+
+        // Load from LocalStorage or use defaults
+        let spacesData = JSON.parse(localStorage.getItem('astralCodeData'));
+        if (!spacesData || spacesData.length !== 5) {
+            spacesData = createDefaultSpaces();
+        }
+
+        let currentSpaceIndex = 0;
+        let currentFileIndex = 0;
+        let isPreviewVisible = true;
+
+        // --- DOM ELEMENTS ---
+        const spacesNav = document.getElementById('spaces-nav');
+        const fileList = document.getElementById('file-list');
+        const codeEditor = document.getElementById('code-editor');
+        const previewFrame = document.getElementById('preview-frame');
+        const previewContainer = document.getElementById('preview-container');
+        const togglePreviewBtn = document.getElementById('toggle-preview-btn');
+        const currentFileNameDisplay = document.getElementById('current-file-name');
+
+        // --- CORE FUNCTIONS ---
+
+        function saveData() {
+            localStorage.setItem('astralCodeData', JSON.stringify(spacesData));
+        }
+
+        function renderSpacesNav() {
+            spacesNav.innerHTML = '';
+            spacesData.forEach((space, index) => {
+                const btn = document.createElement('button');
+                btn.className = `space-tab ${index === currentSpaceIndex ? 'active' : ''}`;
+                btn.innerText = space.name;
+                btn.onclick = () => switchSpace(index);
+                spacesNav.appendChild(btn);
+            });
+        }
+
+        function renderFileList() {
+            fileList.innerHTML = '';
+            const currentSpace = spacesData[currentSpaceIndex];
+            
+            currentSpace.files.forEach((file, index) => {
+                const div = document.createElement('div');
+                div.className = `file-item ${index === currentFileIndex ? 'active' : ''}`;
+                
+                const nameSpan = document.createElement('span');
+                nameSpan.innerText = file.name;
+                nameSpan.onclick = () => switchFile(index);
+                nameSpan.style.flex = '1';
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-file';
+                deleteBtn.innerHTML = '×';
+                deleteBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    deleteFile(index);
+                };
+
+                div.appendChild(nameSpan);
+                if (currentSpace.files.length > 1) {
+                    div.appendChild(deleteBtn);
+                }
+                
+                fileList.appendChild(div);
+            });
+        }
+
+        function loadEditorContent() {
+            const currentFile = spacesData[currentSpaceIndex].files[currentFileIndex];
+            if (currentFile) {
+                codeEditor.value = currentFile.content;
+                codeEditor.disabled = false;
+                currentFileNameDisplay.innerText = currentFile.name;
+                updatePreview();
+            } else {
+                codeEditor.value = '';
+                codeEditor.disabled = true;
+                currentFileNameDisplay.innerText = 'No files';
+                previewFrame.srcdoc = '';
+            }
+        }
+
+        function handleCodeChange() {
+            const currentFile = spacesData[currentSpaceIndex].files[currentFileIndex];
+            if (currentFile) {
+                currentFile.content = codeEditor.value;
+                saveData();
+                updatePreview();
+            }
+        }
+
+        function updatePreview() {
+            if (!isPreviewVisible) return;
+            const currentFile = spacesData[currentSpaceIndex].files[currentFileIndex];
+            if (currentFile) {
+                previewFrame.srcdoc = currentFile.content;
+            }
+        }
+
+        // --- ACTIONS ---
+
+        function switchSpace(index) {
+            currentSpaceIndex = index;
+            currentFileIndex = 0; // Reset to first file
+            renderSpacesNav();
+            renderFileList();
+            loadEditorContent();
+        }
+
+        function switchFile(index) {
+            currentFileIndex = index;
+            renderFileList();
+            loadEditorContent();
+        }
+
+        function addFile() {
+            const fileName = prompt("Enter file name (e.g., script.js, style.css):", "newfile.html");
+            if (fileName && fileName.trim() !== "") {
+                spacesData[currentSpaceIndex].files.push({ name: fileName.trim(), content: '' });
+                currentFileIndex = spacesData[currentSpaceIndex].files.length - 1; // Auto-switch to new file
+                saveData();
+                renderFileList();
+                loadEditorContent();
+            }
+        }
+
+        function deleteFile(index) {
+            if (confirm("Are you sure you want to delete this file?")) {
+                spacesData[currentSpaceIndex].files.splice(index, 1);
+                if (currentFileIndex >= spacesData[currentSpaceIndex].files.length) {
+                    currentFileIndex = Math.max(0, spacesData[currentSpaceIndex].files.length - 1);
+                }
+                saveData();
+                renderFileList();
+                loadEditorContent();
+            }
+        }
+
+        function togglePreview() {
+            isPreviewVisible = !isPreviewVisible;
+            if (isPreviewVisible) {
+                previewContainer.classList.remove('hidden');
+                togglePreviewBtn.style.display = 'none';
+                updatePreview();
+            } else {
+                previewContainer.classList.add('hidden');
+                togglePreviewBtn.style.display = 'block';
+            }
+        }
+
+        function openInNewTab() {
+            const currentFile = spacesData[currentSpaceIndex].files[currentFileIndex];
+            if (currentFile) {
+                const newWindow = window.open('about:blank', '_blank');
+                newWindow.document.write(currentFile.content);
+                newWindow.document.close();
+            }
+        }
+
+        // --- INIT ---
+        togglePreviewBtn.style.display = 'none'; // hidden by default because preview is open
+        renderSpacesNav();
+        renderFileList();
+        loadEditorContent();
+
+    </script>
+</body>
+</html>
