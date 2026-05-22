@@ -1,210 +1,300 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AstralCode</title>
-    <style>
-        /* --- SPACE THEME CSS --- */
+<html><head><title>HTML Online Viewer</title></head><body style="margin: 0px;"><iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;AstralCode IDE&lt;/title&gt;
+    
+    &lt;!-- Professional Fonts --&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot;&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin&gt;
+    &lt;link href=&quot;https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Fira+Code:wght@400;500&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+    
+    &lt;!-- Icons (Phosphor Icons) --&gt;
+    &lt;script src=&quot;https://unpkg.com/@phosphor-icons/web&quot;&gt;&lt;/script&gt;
+
+    &lt;!-- Ace Code Editor --&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.2/ace.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.2/ext-language_tools.js&quot;&gt;&lt;/script&gt;
+
+    &lt;style&gt;
+        /* --- PROFESSIONAL GALAXY THEME --- */
         :root {
-            --space-bg: #050510;
-            --space-panel: #0b0b1a;
-            --neon-cyan: #00e5ff;
-            --neon-purple: #b300ff;
-            --text-main: #e0e0ff;
-            --code-green: #4af626;
+            --bg-base: #0B0E14;
+            --bg-panel: #151B25;
+            --bg-hover: #1F2735;
+            --accent-primary: #3B82F6;
+            --accent-glow: rgba(59, 130, 246, 0.2);
+            --accent-secondary: #8B5CF6;
+            --text-main: #E2E8F0;
+            --text-muted: #8B949E;
+            --border-color: #2D3748;
+            --danger: #EF4444;
+            
+            --font-ui: 'Inter', -apple-system, sans-serif;
+            --font-code: 'Fira Code', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
-            background-color: var(--space-bg);
-            background-image: radial-gradient(circle at 15% 50%, rgba(0, 229, 255, 0.05), transparent 25%),
-                              radial-gradient(circle at 85% 30%, rgba(179, 0, 255, 0.05), transparent 25%);
+            background-color: var(--bg-base);
             color: var(--text-main);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: var(--font-ui);
             display: flex;
             flex-direction: column;
             height: 100vh;
             overflow: hidden;
+            /* Subtle starry gradient */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.05), transparent 25%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.05), transparent 25%);
         }
 
-        /* Header / Navbar */
+        /* --- HEADER &amp; NAVIGATION --- */
         header {
-            background-color: var(--space-panel);
-            border-bottom: 2px solid var(--neon-purple);
-            padding: 10px 20px;
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            height: 55px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 0 15px rgba(179, 0, 255, 0.2);
+            padding: 0 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 10;
         }
 
         .logo {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: var(--neon-cyan);
-            text-shadow: 0 0 8px var(--neon-cyan);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
+            letter-spacing: 0.5px;
         }
 
-        .btn {
-            background: rgba(0, 229, 255, 0.1);
-            color: var(--neon-cyan);
-            border: 1px solid var(--neon-cyan);
-            padding: 6px 12px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.2s ease-in-out;
-            font-family: inherit;
-            text-decoration: none;
-            font-size: 0.9em;
-        }
-
-        .btn:hover {
-            background: var(--neon-cyan);
-            color: #000;
-            box-shadow: 0 0 10px var(--neon-cyan);
-        }
-
-        .btn-purple {
-            background: rgba(179, 0, 255, 0.1);
-            color: #d884ff;
-            border-color: var(--neon-purple);
-        }
-        .btn-purple:hover {
-            background: var(--neon-purple);
-            color: #fff;
-            box-shadow: 0 0 10px var(--neon-purple);
+        .logo i {
+            color: var(--accent-secondary);
+            font-size: 1.5rem;
+            filter: drop-shadow(0 0 8px var(--accent-secondary));
         }
 
         .spaces-nav {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            overflow-x: auto;
         }
 
         .space-tab {
-            padding: 6px 12px;
+            padding: 6px 14px;
             cursor: pointer;
-            border: 1px solid #333;
-            border-radius: 4px;
+            border: 1px solid transparent;
+            border-radius: 6px;
             background: transparent;
-            color: #888;
-        }
-        .space-tab.active {
-            border-color: var(--neon-purple);
-            color: #fff;
-            background: rgba(179, 0, 255, 0.2);
-            text-shadow: 0 0 5px var(--neon-purple);
+            color: var(--text-muted);
+            font-family: var(--font-ui);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
         }
 
-        /* Workspace Area */
+        .space-tab:hover {
+            color: var(--text-main);
+            background: var(--bg-hover);
+        }
+
+        .space-tab.active {
+            color: #fff;
+            background: var(--bg-hover);
+            border-color: var(--border-color);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        /* --- BUTTONS --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-hover);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background: var(--border-color);
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: #fff;
+            border-color: var(--accent-primary);
+        }
+
+        .btn-primary:hover {
+            background: #2563EB;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        /* --- WORKSPACE LAYOUT --- */
         .workspace {
             display: flex;
             flex: 1;
             overflow: hidden;
         }
 
-        /* Sidebar (Files) */
+        /* --- SIDEBAR --- */
         .sidebar {
-            width: 220px;
-            background-color: var(--space-panel);
-            border-right: 1px solid #222;
-            padding: 10px;
+            width: 240px;
+            background-color: var(--bg-panel);
+            border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            gap: 10px;
+        }
+
+        .sidebar-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .file-list {
             flex: 1;
             overflow-y: auto;
+            padding: 10px;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
         }
 
         .file-item {
-            padding: 8px;
+            padding: 8px 10px;
             cursor: pointer;
-            border-radius: 4px;
-            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            transition: all 0.1s ease;
         }
+
         .file-item:hover {
-            background: rgba(255,255,255,0.1);
+            background: var(--bg-hover);
+            color: var(--text-main);
         }
+
         .file-item.active {
-            background: rgba(0, 229, 255, 0.2);
-            border-left: 3px solid var(--neon-cyan);
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-primary);
         }
-        
+
+        .file-item-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         .delete-file {
-            color: #ff4444;
+            color: var(--text-muted);
             background: transparent;
             border: none;
             cursor: pointer;
-            font-size: 1.1em;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            border-radius: 4px;
         }
 
-        /* Editor Area */
+        .delete-file:hover {
+            color: var(--danger);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* --- EDITOR AREA --- */
         .editor-container {
             flex: 1;
             display: flex;
             flex-direction: column;
-            background: #000;
+            background: var(--bg-base);
             position: relative;
         }
         
         .editor-toolbar {
-            background: #111;
-            padding: 8px;
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid #333;
-        }
-
-        textarea {
-            flex: 1;
-            background: transparent;
-            color: var(--code-green);
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
-            border: none;
-            padding: 15px;
-            resize: none;
-            outline: none;
-            white-space: pre;
-            overflow-wrap: normal;
-            overflow-x: auto;
-        }
-
-        /* Live Preview Area */
-        .preview-container {
-            width: 40%;
-            background: #fff;
-            display: flex;
-            flex-direction: column;
-            border-left: 2px solid var(--neon-cyan);
-            transition: all 0.3s ease;
-        }
-
-        .preview-container.hidden {
-            display: none;
-        }
-
-        .preview-header {
-            background: #eee;
-            padding: 8px 15px;
+            background: var(--bg-base);
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #333;
-            font-weight: bold;
-            border-bottom: 1px solid #ccc;
+            border-bottom: 1px solid var(--border-color);
+            height: 45px;
+        }
+
+        .file-breadcrumbs {
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Container for Ace Editor */
+        .editor-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        #code-editor {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            font-family: var(--font-code);
+        }
+
+        /* --- PREVIEW AREA --- */
+        .preview-container {
+            width: 45%;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid var(--border-color);
+            transition: width 0.3s ease;
+        }
+
+        .preview-container.hidden {
+            width: 0;
+            border-left: none;
+        }
+
+        .preview-header {
+            background: var(--bg-panel);
+            height: 45px;
+            padding: 0 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-size: 0.85rem;
+            font-weight: 500;
         }
 
         iframe {
@@ -214,75 +304,122 @@
             background: #fff;
         }
 
-    </style>
-</head>
-<body>
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-panel); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
-    <header>
-        <div class="logo">
-            <a href="index.html" class="btn">Home</a>
-            ✨ AstralCode
-        </div>
-        <div class="spaces-nav" id="spaces-nav">
-            </div>
-    </header>
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
 
-    <div class="workspace">
-        <div class="sidebar">
-            <button class="btn" onclick="addFile()">+ New File</button>
-            <div class="file-list" id="file-list">
-                </div>
-        </div>
+    &lt;header&gt;
+        &lt;div class=&quot;logo&quot;&gt;
+            &lt;i class=&quot;ph-fill ph-planet&quot;&gt;&lt;/i&gt; AstralCode
+        &lt;/div&gt;
+        &lt;div class=&quot;spaces-nav&quot; id=&quot;spaces-nav&quot;&gt;
+            &lt;!-- Tabs injected via JS --&gt;
+        &lt;/div&gt;
+        &lt;div&gt;&lt;/div&gt; &lt;!-- Empty div to balance flex header --&gt;
+    &lt;/header&gt;
 
-        <div class="editor-container">
-            <div class="editor-toolbar">
-                <span id="current-file-name" style="color: #888;">No file selected</span>
-                <button class="btn btn-purple" id="toggle-preview-btn" onclick="togglePreview()">Show Preview</button>
-            </div>
-            <textarea id="code-editor" spellcheck="false" oninput="handleCodeChange()"></textarea>
-        </div>
+    &lt;div class=&quot;workspace&quot;&gt;
+        &lt;!-- Sidebar --&gt;
+        &lt;div class=&quot;sidebar&quot;&gt;
+            &lt;div class=&quot;sidebar-header&quot;&gt;
+                &lt;button class=&quot;btn btn-primary&quot; style=&quot;width: 100%; justify-content: center;&quot; onclick=&quot;addFile()&quot;&gt;
+                    &lt;i class=&quot;ph ph-plus&quot;&gt;&lt;/i&gt; New File
+                &lt;/button&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;file-list&quot; id=&quot;file-list&quot;&gt;
+                &lt;!-- Files injected via JS --&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
 
-        <div class="preview-container" id="preview-container">
-            <div class="preview-header">
-                <span>Live Preview</span>
-                <div>
-                    <button class="btn" style="color:#000; border-color:#999;" onclick="openInNewTab()">Open in New Tab</button>
-                    <button class="btn" style="color:#ff4444; border-color:#ff4444;" onclick="togglePreview()">Close</button>
-                </div>
-            </div>
-            <iframe id="preview-frame"></iframe>
-        </div>
-    </div>
+        &lt;!-- Editor --&gt;
+        &lt;div class=&quot;editor-container&quot;&gt;
+            &lt;div class=&quot;editor-toolbar&quot;&gt;
+                &lt;div class=&quot;file-breadcrumbs&quot;&gt;
+                    &lt;i class=&quot;ph ph-file-code&quot;&gt;&lt;/i&gt;
+                    &lt;span id=&quot;current-file-name&quot;&gt;No file selected&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;button class=&quot;btn&quot; id=&quot;toggle-preview-btn&quot; onclick=&quot;togglePreview()&quot;&gt;
+                    &lt;i class=&quot;ph ph-layout&quot;&gt;&lt;/i&gt; &lt;span id=&quot;preview-btn-text&quot;&gt;Hide Preview&lt;/span&gt;
+                &lt;/button&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;editor-wrapper&quot;&gt;
+                &lt;div id=&quot;code-editor&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
 
-    <script>
-        // --- DATA INITIALIZATION ---
-        const DEFAULT_HTML = `<!DOCTYPE html>
-<html>
-<head>
-  <style>
-    body { background: #111; color: #fff; text-align: center; font-family: sans-serif; padding-top: 50px; }
-    h1 { color: #00e5ff; }
-  </style>
-</head>
-<body>
-  <h1>Welcome to AstralCode 🚀</h1>
-  <p>Start typing to see live updates!</p>
-</body>
-</html>`;
+        &lt;!-- Live Preview --&gt;
+        &lt;div class=&quot;preview-container&quot; id=&quot;preview-container&quot;&gt;
+            &lt;div class=&quot;preview-header&quot;&gt;
+                &lt;span style=&quot;display: flex; align-items: center; gap: 6px;&quot;&gt;
+                    &lt;i class=&quot;ph ph-browser&quot;&gt;&lt;/i&gt; Live Preview
+                &lt;/span&gt;
+                &lt;div style=&quot;display: flex; gap: 8px;&quot;&gt;
+                    &lt;button class=&quot;btn&quot; style=&quot;padding: 4px 8px; font-size: 0.8rem;&quot; onclick=&quot;openInNewTab()&quot;&gt;
+                        &lt;i class=&quot;ph ph-arrow-square-out&quot;&gt;&lt;/i&gt; Pop Out
+                    &lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;iframe id=&quot;preview-frame&quot; sandbox=&quot;allow-scripts allow-modals&quot;&gt;&lt;/iframe&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
 
-        // Generate default 5 code spaces
-        const createDefaultSpaces = () => {
-            return Array.from({ length: 5 }, (_, i) => ({
+    &lt;script&gt;
+        // --- DEFAULT DATA ---
+        const DEFAULT_HTML = `&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;style&gt;
+    body {
+      background: #0B0E14;
+      color: #E2E8F0;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: #151B25;
+      padding: 40px;
+      border-radius: 12px;
+      border: 1px solid #2D3748;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+    h1 { color: #3B82F6; margin-bottom: 10px; }
+    p { color: #8B949E; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h1&gt;AstralCode IDE 🚀&lt;/h1&gt;
+    &lt;p&gt;Professional grade. Start coding to see live updates.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;`;
+
+        // Initialize Data
+        const createDefaultSpaces = () =&gt; {
+            return Array.from({ length: 5 }, (_, i) =&gt; ({
                 id: i,
                 name: `Space ${i + 1}`,
                 files: [
-                    { name: 'index.html', content: i === 0 ? DEFAULT_HTML : `<h1>Hello from Space ${i + 1}</h1>` }
+                    { name: 'index.html', content: i === 0 ? DEFAULT_HTML : `&lt;h1&gt;Hello from Space ${i + 1}&lt;/h1&gt;` },
+                    { name: 'styles.css', content: '/* Add your CSS here */' }
                 ]
             }));
         };
 
-        // Load from LocalStorage or use defaults
-        let spacesData = JSON.parse(localStorage.getItem('astralCodeData'));
+        let spacesData = JSON.parse(localStorage.getItem('astralCodeData_v2'));
         if (!spacesData || spacesData.length !== 5) {
             spacesData = createDefaultSpaces();
         }
@@ -290,29 +427,66 @@
         let currentSpaceIndex = 0;
         let currentFileIndex = 0;
         let isPreviewVisible = true;
+        let previewTimeout;
 
         // --- DOM ELEMENTS ---
         const spacesNav = document.getElementById('spaces-nav');
         const fileList = document.getElementById('file-list');
-        const codeEditor = document.getElementById('code-editor');
         const previewFrame = document.getElementById('preview-frame');
         const previewContainer = document.getElementById('preview-container');
-        const togglePreviewBtn = document.getElementById('toggle-preview-btn');
+        const previewBtnText = document.getElementById('preview-btn-text');
         const currentFileNameDisplay = document.getElementById('current-file-name');
 
-        // --- CORE FUNCTIONS ---
+        // --- ACE EDITOR SETUP ---
+        const editor = ace.edit(&quot;code-editor&quot;);
+        editor.setTheme(&quot;ace/theme/tomorrow_night_eighties&quot;);
+        editor.session.setMode(&quot;ace/mode/html&quot;);
+        editor.setOptions({
+            fontSize: &quot;14px&quot;,
+            showPrintMargin: false,
+            enableBasicAutocompletion: true,
+            enableLiveAutocompletion: true,
+            tabSize: 2,
+            useWorker: false // Disables syntax linting errors for external scripts
+        });
 
+        // Event listener for editor changes
+        editor.session.on('change', () =&gt; {
+            const currentFile = spacesData[currentSpaceIndex].files[currentFileIndex];
+            if (currentFile) {
+                currentFile.content = editor.getValue();
+                saveData();
+                debouncedUpdatePreview();
+            }
+        });
+
+        // --- CORE FUNCTIONS ---
         function saveData() {
-            localStorage.setItem('astralCodeData', JSON.stringify(spacesData));
+            localStorage.setItem('astralCodeData_v2', JSON.stringify(spacesData));
+        }
+
+        function getFileIcon(filename) {
+            if (filename.endsWith('.html')) return '&lt;i class=&quot;ph-fill ph-file-html&quot; style=&quot;color: #E34F26&quot;&gt;&lt;/i&gt;';
+            if (filename.endsWith('.css')) return '&lt;i class=&quot;ph-fill ph-file-css&quot; style=&quot;color: #1572B6&quot;&gt;&lt;/i&gt;';
+            if (filename.endsWith('.js')) return '&lt;i class=&quot;ph-fill ph-file-js&quot; style=&quot;color: #F7DF1E&quot;&gt;&lt;/i&gt;';
+            if (filename.endsWith('.json')) return '&lt;i class=&quot;ph-fill ph-brackets-curly&quot; style=&quot;color: #8B949E&quot;&gt;&lt;/i&gt;';
+            return '&lt;i class=&quot;ph-fill ph-file-text&quot; style=&quot;color: #8B949E&quot;&gt;&lt;/i&gt;';
+        }
+
+        function getEditorMode(filename) {
+            if (filename.endsWith('.js')) return &quot;ace/mode/javascript&quot;;
+            if (filename.endsWith('.css')) return &quot;ace/mode/css&quot;;
+            if (filename.endsWith('.json')) return &quot;ace/mode/json&quot;;
+            return &quot;ace/mode/html&quot;;
         }
 
         function renderSpacesNav() {
             spacesNav.innerHTML = '';
-            spacesData.forEach((space, index) => {
+            spacesData.forEach((space, index) =&gt; {
                 const btn = document.createElement('button');
                 btn.className = `space-tab ${index === currentSpaceIndex ? 'active' : ''}`;
                 btn.innerText = space.name;
-                btn.onclick = () => switchSpace(index);
+                btn.onclick = () =&gt; switchSpace(index);
                 spacesNav.appendChild(btn);
             });
         }
@@ -321,25 +495,25 @@
             fileList.innerHTML = '';
             const currentSpace = spacesData[currentSpaceIndex];
             
-            currentSpace.files.forEach((file, index) => {
+            currentSpace.files.forEach((file, index) =&gt; {
                 const div = document.createElement('div');
                 div.className = `file-item ${index === currentFileIndex ? 'active' : ''}`;
+                div.onclick = () =&gt; switchFile(index);
                 
-                const nameSpan = document.createElement('span');
-                nameSpan.innerText = file.name;
-                nameSpan.onclick = () => switchFile(index);
-                nameSpan.style.flex = '1';
+                const nameContainer = document.createElement('div');
+                nameContainer.className = 'file-item-name';
+                nameContainer.innerHTML = `${getFileIcon(file.name)} &lt;span&gt;${file.name}&lt;/span&gt;`;
                 
-                const deleteBtn = document.createElement('button');
-                deleteBtn.className = 'delete-file';
-                deleteBtn.innerHTML = '×';
-                deleteBtn.onclick = (e) => {
-                    e.stopPropagation();
-                    deleteFile(index);
-                };
+                div.appendChild(nameContainer);
 
-                div.appendChild(nameSpan);
-                if (currentSpace.files.length > 1) {
+                if (currentSpace.files.length &gt; 1) {
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'delete-file';
+                    deleteBtn.innerHTML = '&lt;i class=&quot;ph ph-trash&quot;&gt;&lt;/i&gt;';
+                    deleteBtn.onclick = (e) =&gt; {
+                        e.stopPropagation();
+                        deleteFile(index);
+                    };
                     div.appendChild(deleteBtn);
                 }
                 
@@ -350,40 +524,49 @@
         function loadEditorContent() {
             const currentFile = spacesData[currentSpaceIndex].files[currentFileIndex];
             if (currentFile) {
-                codeEditor.value = currentFile.content;
-                codeEditor.disabled = false;
+                // Set value without triggering the 'change' event unnecessarily
+                editor.setValue(currentFile.content, -1);
+                editor.session.setMode(getEditorMode(currentFile.name));
+                editor.setReadOnly(false);
                 currentFileNameDisplay.innerText = currentFile.name;
+                
+                // Immediately update preview to the current file
                 updatePreview();
             } else {
-                codeEditor.value = '';
-                codeEditor.disabled = true;
+                editor.setValue('');
+                editor.setReadOnly(true);
                 currentFileNameDisplay.innerText = 'No files';
                 previewFrame.srcdoc = '';
             }
         }
 
-        function handleCodeChange() {
-            const currentFile = spacesData[currentSpaceIndex].files[currentFileIndex];
-            if (currentFile) {
-                currentFile.content = codeEditor.value;
-                saveData();
-                updatePreview();
-            }
+        // --- PREVIEW LOGIC ---
+        function debouncedUpdatePreview() {
+            clearTimeout(previewTimeout);
+            previewTimeout = setTimeout(updatePreview, 500); // 500ms delay to prevent freezing
         }
 
         function updatePreview() {
             if (!isPreviewVisible) return;
             const currentFile = spacesData[currentSpaceIndex].files[currentFileIndex];
-            if (currentFile) {
+            if (currentFile &amp;&amp; currentFile.name.endsWith('.html')) {
                 previewFrame.srcdoc = currentFile.content;
+            } else if (currentFile) {
+                // If viewing a non-html file, try to find an index.html to render instead, 
+                // otherwise show a placeholder
+                const htmlFile = spacesData[currentSpaceIndex].files.find(f =&gt; f.name.endsWith('.html'));
+                if (htmlFile) {
+                     previewFrame.srcdoc = htmlFile.content;
+                } else {
+                     previewFrame.srcdoc = `&lt;body style=&quot;font-family:sans-serif; padding:20px; color:#333;&quot;&gt;&lt;i&gt;Preview is only available for HTML files.&lt;/i&gt;&lt;/body&gt;`;
+                }
             }
         }
 
         // --- ACTIONS ---
-
         function switchSpace(index) {
             currentSpaceIndex = index;
-            currentFileIndex = 0; // Reset to first file
+            currentFileIndex = 0;
             renderSpacesNav();
             renderFileList();
             loadEditorContent();
@@ -396,10 +579,15 @@
         }
 
         function addFile() {
-            const fileName = prompt("Enter file name (e.g., script.js, style.css):", "newfile.html");
-            if (fileName && fileName.trim() !== "") {
+            const fileName = prompt(&quot;Enter file name (e.g., script.js, style.css):&quot;, &quot;newfile.html&quot;);
+            if (fileName &amp;&amp; fileName.trim() !== &quot;&quot;) {
+                // Check for duplicates
+                if(spacesData[currentSpaceIndex].files.some(f =&gt; f.name === fileName.trim())) {
+                    alert(&quot;A file with that name already exists!&quot;);
+                    return;
+                }
                 spacesData[currentSpaceIndex].files.push({ name: fileName.trim(), content: '' });
-                currentFileIndex = spacesData[currentSpaceIndex].files.length - 1; // Auto-switch to new file
+                currentFileIndex = spacesData[currentSpaceIndex].files.length - 1;
                 saveData();
                 renderFileList();
                 loadEditorContent();
@@ -407,9 +595,9 @@
         }
 
         function deleteFile(index) {
-            if (confirm("Are you sure you want to delete this file?")) {
+            if (confirm(`Are you sure you want to delete ${spacesData[currentSpaceIndex].files[index].name}?`)) {
                 spacesData[currentSpaceIndex].files.splice(index, 1);
-                if (currentFileIndex >= spacesData[currentSpaceIndex].files.length) {
+                if (currentFileIndex &gt;= spacesData[currentSpaceIndex].files.length) {
                     currentFileIndex = Math.max(0, spacesData[currentSpaceIndex].files.length - 1);
                 }
                 saveData();
@@ -422,29 +610,32 @@
             isPreviewVisible = !isPreviewVisible;
             if (isPreviewVisible) {
                 previewContainer.classList.remove('hidden');
-                togglePreviewBtn.style.display = 'none';
+                previewBtnText.innerText = 'Hide Preview';
                 updatePreview();
             } else {
                 previewContainer.classList.add('hidden');
-                togglePreviewBtn.style.display = 'block';
+                previewBtnText.innerText = 'Show Preview';
             }
+            // Trigger Ace editor resize event to fix sizing when flex container changes
+            setTimeout(() =&gt; editor.resize(), 300);
         }
 
         function openInNewTab() {
             const currentFile = spacesData[currentSpaceIndex].files[currentFileIndex];
-            if (currentFile) {
+            if (currentFile &amp;&amp; currentFile.name.endsWith('.html')) {
                 const newWindow = window.open('about:blank', '_blank');
                 newWindow.document.write(currentFile.content);
                 newWindow.document.close();
+            } else {
+                alert(&quot;Only HTML files can be opened in a new tab.&quot;);
             }
         }
 
-        // --- INIT ---
-        togglePreviewBtn.style.display = 'none'; // hidden by default because preview is open
+        // --- INITIALIZATION ---
         renderSpacesNav();
         renderFileList();
         loadEditorContent();
 
-    </script>
-</body>
-</html>
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;" title="HTML Online Viewer" style="border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; width: 100%; height: 100%;"></iframe></body></html>
